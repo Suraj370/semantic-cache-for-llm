@@ -1,41 +1,81 @@
 """Semantic caching library.
 
+Cache key strategy
+------------------
+There is no traditional string key.  Every incoming prompt goes through a
+two-part keying process before hitting the vector store:
+
+1. **Context key** (exact match) — ``CacheKeyBuilder`` hashes the LLM
+   context (system_prompt, model, temperature, max_tokens) into a short hex
+   digest.  Only entries stored under the *same* context key are eligible
+   as hits.  This prevents cross-contamination between different system
+   prompts or generation parameters.
+
+2. **Semantic key** (similarity match) — the *normalised* query text is
+   embedded via ``text-embedding-3-small`` and compared to stored embeddings
+   using cosine similarity.  A result must exceed ``threshold`` (default
+   0.85) to count as a hit.
+
+Lookup flow::
+
+    raw query
+        → QueryNormalizer.normalize()
+        → EmbeddingService.embed_one()          # text-embedding-3-small
+        → VectorStore.search(
+              embedding,
+              context_key=key,                  # hard filter (exact)
+              threshold=0.85,                   # soft filter (similarity)
+          )
+        → hit → return cached response
+          miss → call LLM, store CacheEntry, return response
+
 Quick start::
 
-    from src.config import CacheConfig, EmbeddingConfig, VectorStoreConfig
-    from src.embedding import OpenAIEmbeddingProvider, EmbeddingService
-    from src.vector_store import InMemoryVectorStore
-    from src.query_normalizer import QueryNormalizer
-    from src.models import CacheEntry
+    from src import (
+        OpenAIEmbeddingProvider, EmbeddingService,
+        InMemoryVectorStore,
+        QueryNormalizer,
+        LLMContext, CacheKeyBuilder,
+        CacheEntry,
+    )
 
-    # 1. Build embedding service (text-embedding-3-small)
-    provider = OpenAIEmbeddingProvider(api_key="sk-...")
-    embedding_service = EmbeddingService(primary=provider)
-
-    # 2. Build vector store
-    store = InMemoryVectorStore(max_size=10_000)
-
-    # 3. Cache a prompt
+    # 1. Build subsystems
+    provider   = OpenAIEmbeddingProvider(api_key="sk-...")
+    embeddings = EmbeddingService(primary=provider)
+    store      = InMemoryVectorStore(max_size=10_000)
     normalizer = QueryNormalizer()
-    raw_query = "What is semantic caching?"
-    normalized = normalizer.normalize(raw_query)
-    embedding = embedding_service.embed_one(normalized)
+    key_builder = CacheKeyBuilder()
 
-    hits = store.search(embedding, k=1, threshold=0.85)
+    # 2. Define the LLM context (anything that affects the response)
+    context = LLMContext(
+        system_prompt="You are a concise assistant.",
+        model="gpt-4o",
+        temperature=0.2,
+        max_tokens=512,
+    )
+    context_key = key_builder.build(context)
+
+    # 3. Lookup
+    raw_query  = "What is semantic caching?"
+    normalized = normalizer.normalize(raw_query)
+    embedding  = embeddings.embed_one(normalized)
+
+    hits = store.search(embedding, k=1, threshold=0.85, context_key=context_key)
     if hits:
         entry, score = hits[0]
         response = entry.response
     else:
         response = call_llm(raw_query)           # your LLM call
-        entry = CacheEntry(
+        store.add(CacheEntry(
             query=raw_query,
             normalized_query=normalized,
             response=response,
             embedding=embedding,
-        )
-        store.add(entry)
+            context_key=context_key,
+        ))
 """
 
+from .cache_key import CacheKeyBuilder, LLMContext, default_key_builder
 from .config import CacheConfig, EmbeddingConfig, VectorStoreConfig
 from .embedding import EmbeddingProvider, EmbeddingService, OpenAIEmbeddingProvider
 from .exceptions import ConfigError, EmbeddingError, SemanticCacheError, VectorStoreError
@@ -49,6 +89,10 @@ __all__ = [
     "CacheConfig",
     "EmbeddingConfig",
     "VectorStoreConfig",
+    # Cache key
+    "LLMContext",
+    "CacheKeyBuilder",
+    "default_key_builder",
     # Embedding
     "EmbeddingProvider",
     "OpenAIEmbeddingProvider",

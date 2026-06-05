@@ -15,7 +15,12 @@ class CacheEntry:
     The embedding field holds the vector for *normalized_query*, which is
     what the vector store uses to compute cosine similarity at lookup time.
     There is no separate string-based cache key — semantic identity is
-    determined entirely by embedding distance.
+    determined by embedding distance AND an exact ``context_key`` match.
+
+    ``context_key`` is a SHA-256 digest of the LLM context (system prompt,
+    model, temperature, max_tokens) produced by :class:`~src.cache_key.CacheKeyBuilder`.
+    Entries with different context keys are never returned as hits for each
+    other, preventing cross-contamination between different use cases.
     """
 
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
@@ -23,6 +28,7 @@ class CacheEntry:
     normalized_query: str = ""
     response: str = ""
     embedding: List[float] = field(default_factory=list)
+    context_key: Optional[str] = None
     created_at: float = field(default_factory=time.time)
     last_accessed: float = field(default_factory=time.time)
     access_count: int = 0
@@ -55,6 +61,7 @@ class CacheEntry:
             "normalized_query": self.normalized_query,
             "response": self.response,
             "embedding": self.embedding,
+            "context_key": self.context_key,
             "created_at": self.created_at,
             "last_accessed": self.last_accessed,
             "access_count": self.access_count,
@@ -70,6 +77,7 @@ class CacheEntry:
             normalized_query=data["normalized_query"],
             response=data["response"],
             embedding=data["embedding"],
+            context_key=data.get("context_key"),
             created_at=data["created_at"],
             last_accessed=data["last_accessed"],
             access_count=data["access_count"],

@@ -109,28 +109,40 @@ class InMemoryVectorStore(VectorStore):
         embedding: List[float],
         k: int = 1,
         threshold: float = 0.85,
+        context_key: Optional[str] = None,
     ) -> List[Tuple[CacheEntry, float]]:
-        """Return up to *k* non-expired entries with similarity ≥ *threshold*."""
+        """Return up to *k* non-expired entries with similarity ≥ *threshold*.
+
+        When *context_key* is provided only entries whose stored
+        ``context_key`` matches exactly are eligible.  This prevents hits
+        across different system prompts, models, or generation parameters.
+        """
         with self._lock:
             if self._embeddings is None or not self._entries:
                 return []
 
             query = np.array(embedding, dtype=np.float32)
 
-            # Fetch more candidates than needed so filtering doesn't under-deliver
+            # Fetch more candidates than k so context/expiry filtering
+            # doesn't leave us short of results.
             raw = (
-                self._faiss_search(query, k=k * 2)
+                self._faiss_search(query, k=k * 4)
                 if self._use_faiss and len(self._id_list) >= self._faiss_threshold
-                else self._numpy_search(query, k=k * 2)
+                else self._numpy_search(query, k=k * 4)
             )
 
             results: List[Tuple[CacheEntry, float]] = []
             for idx, sim in raw:
                 if sim < threshold:
-                    continue
+                    break  # sorted descending — no point continuing
                 entry_id = self._id_list[idx]
                 entry = self._entries.get(entry_id)
                 if entry is None or entry.is_expired():
+                    continue
+                # Hard filter: context keys must match exactly.
+                # An entry stored without a key (None) is never returned
+                # when the caller supplies a key, and vice-versa.
+                if context_key != entry.context_key:
                     continue
                 results.append((entry, float(sim)))
                 if len(results) >= k:

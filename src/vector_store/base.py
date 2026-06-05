@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Iterator, List, Tuple
+from typing import Iterator, List, Optional, Tuple
 
 from ..models import CacheEntry
 
@@ -31,6 +31,7 @@ class VectorStore(ABC):
         embedding: List[float],
         k: int = 1,
         threshold: float = 0.85,
+        context_key: Optional[str] = None,
     ) -> List[Tuple[CacheEntry, float]]:
         """Find the *k* most similar live (non-expired) entries.
 
@@ -38,10 +39,15 @@ class VectorStore(ABC):
             embedding: Query vector produced by the embedding service.
             k: Maximum number of results to return.
             threshold: Minimum cosine similarity for a result to qualify.
+            context_key: When supplied, only entries whose ``context_key``
+                exactly matches are eligible.  Entries stored without a
+                context key (``None``) are never returned when a key is
+                provided, preventing cross-contamination between different
+                system prompts, models, or generation parameters.
 
         Returns:
             ``[(entry, similarity), ...]`` sorted by similarity descending.
-            Empty list when nothing meets the threshold.
+            Empty list when nothing meets the threshold or context filter.
 
         Raises:
             VectorStoreError: On search failure.
