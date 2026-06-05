@@ -1,22 +1,13 @@
-"""Anthropic provider — converts OpenAI format ↔ Anthropic Messages API.
-
-The Anthropic Messages API differs from OpenAI in three key ways:
-1. ``system`` is a top-level field, not a message role.
-2. ``max_tokens`` is required (no default).
-3. Response shape uses ``content[].text`` and ``stop_reason`` instead of
-   ``choices[].message.content`` and ``finish_reason``.
-
-This provider handles both translations so the cache layer and the router
-remain completely provider-agnostic.
-"""
+"""Anthropic provider — converts OpenAI format ↔ Anthropic Messages API."""
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import time
 import uuid
-from typing import Any, Dict, List, Optional
+from typing import Any, AsyncIterator, Dict, List, Optional
 
 from fastapi import HTTPException
 
@@ -27,7 +18,6 @@ logger = logging.getLogger(__name__)
 
 _DEFAULT_MAX_TOKENS = 1024
 
-# Anthropic stop_reason → OpenAI finish_reason
 _STOP_REASON_MAP: Dict[str, str] = {
     "end_turn": "stop",
     "max_tokens": "length",
@@ -50,18 +40,17 @@ class AnthropicProvider(LLMProvider):
     def provider_name(self) -> str:
         return "anthropic"
 
-    async def complete(self, request: ChatCompletionRequest) -> Dict[str, Any]:
+    def _client(self):  # type: ignore[return]
         try:
             import anthropic  # noqa: PLC0415
+            return anthropic.AsyncAnthropic(api_key=self._api_key)
         except ImportError as exc:
             raise HTTPException(
                 status_code=500, detail="anthropic package not installed."
             ) from exc
 
-        client = anthropic.AsyncAnthropic(api_key=self._api_key)
-
+    def _build_kwargs(self, request: ChatCompletionRequest) -> Dict[str, Any]:
         system, messages = self._split_messages(request)
-
         kwargs: Dict[str, Any] = {
             "model": request.model,
             "messages": messages,
@@ -77,14 +66,51 @@ class AnthropicProvider(LLMProvider):
             kwargs["stop_sequences"] = (
                 request.stop if isinstance(request.stop, list) else [request.stop]
             )
+        return kwargs
 
+    async def complete(self, request: ChatCompletionRequest) -> Dict[str, Any]:
+        import anthropic  # noqa: PLC0415
         try:
-            response = await client.messages.create(**kwargs)
+            response = await self._client().messages.create(**self._build_kwargs(request))
+            return self._to_openai_format(response, request.model)
         except anthropic.APIError as exc:
-            logger.error("Anthropic API error: %s", exc)
+            logger.error("Anthropic error: %s", exc)
             raise HTTPException(status_code=502, detail=f"Anthropic error: {exc}") from exc
 
-        return self._to_openai_format(response, request.model)
+    async def stream(self, request: ChatCompletionRequest) -> AsyncIterator[str]:
+        """Stream from Anthropic and yield OpenAI-format SSE chunks."""
+        import anthropic  # noqa: PLC0415
+
+        chunk_id = f"chatcmpl-{uuid.uuid4().hex[:24]}"
+        created = int(time.time())
+
+        try:
+            async with self._client().messages.stream(**self._build_kwargs(request)) as stream:
+                async for event in stream:
+                    chunk = self._event_to_openai_chunk(
+                        event, chunk_id, created, request.model
+                    )
+                    if chunk is not None:
+                        yield f"data: {json.dumps(chunk)}\n\n"
+
+            # Final chunk with finish_reason
+            final_message = await stream.get_final_message()
+            finish_reason = _STOP_REASON_MAP.get(
+                final_message.stop_reason or "end_turn", "stop"
+            )
+            final_chunk = {
+                "id": chunk_id,
+                "object": "chat.completion.chunk",
+                "created": created,
+                "model": request.model,
+                "choices": [{"index": 0, "delta": {}, "finish_reason": finish_reason}],
+            }
+            yield f"data: {json.dumps(final_chunk)}\n\n"
+            yield "data: [DONE]\n\n"
+
+        except anthropic.APIError as exc:
+            logger.error("Anthropic streaming error: %s", exc)
+            raise HTTPException(status_code=502, detail=f"Anthropic error: {exc}") from exc
 
     # ------------------------------------------------------------------
     # Private helpers
@@ -94,12 +120,10 @@ class AnthropicProvider(LLMProvider):
     def _split_messages(
         request: ChatCompletionRequest,
     ) -> tuple[Optional[str], List[Dict[str, Any]]]:
-        """Separate the system prompt from user/assistant turns."""
         system: Optional[str] = None
         messages: List[Dict[str, Any]] = []
         for msg in request.messages:
             if msg.role == "system":
-                # Anthropic only supports a single system prompt string
                 system = (system + "\n" + (msg.content or "")).strip() if system else msg.content
             else:
                 messages.append({"role": msg.role, "content": msg.content or ""})
@@ -107,16 +131,10 @@ class AnthropicProvider(LLMProvider):
 
     @staticmethod
     def _to_openai_format(response: Any, requested_model: str) -> Dict[str, Any]:
-        """Convert an Anthropic ``Message`` object to an OpenAI response dict."""
-        content = ""
-        for block in response.content:
-            if hasattr(block, "text"):
-                content += block.text
-
-        finish_reason = _STOP_REASON_MAP.get(
-            response.stop_reason or "end_turn", "stop"
+        content = "".join(
+            block.text for block in response.content if hasattr(block, "text")
         )
-
+        finish_reason = _STOP_REASON_MAP.get(response.stop_reason or "end_turn", "stop")
         usage = None
         if response.usage:
             usage = {
@@ -124,7 +142,6 @@ class AnthropicProvider(LLMProvider):
                 "completion_tokens": response.usage.output_tokens,
                 "total_tokens": response.usage.input_tokens + response.usage.output_tokens,
             }
-
         return {
             "id": f"chatcmpl-{uuid.uuid4().hex[:24]}",
             "object": "chat.completion",
@@ -141,3 +158,44 @@ class AnthropicProvider(LLMProvider):
             "usage": usage,
             "system_fingerprint": None,
         }
+
+    @staticmethod
+    def _event_to_openai_chunk(
+        event: Any,
+        chunk_id: str,
+        created: int,
+        model: str,
+    ) -> Optional[Dict[str, Any]]:
+        """Convert an Anthropic stream event to an OpenAI chunk dict, or None to skip."""
+        event_type = getattr(event, "type", None)
+
+        if event_type == "content_block_delta":
+            delta_text = getattr(getattr(event, "delta", None), "text", None)
+            if delta_text:
+                return {
+                    "id": chunk_id,
+                    "object": "chat.completion.chunk",
+                    "created": created,
+                    "model": model,
+                    "choices": [
+                        {
+                            "index": 0,
+                            "delta": {"content": delta_text},
+                            "finish_reason": None,
+                        }
+                    ],
+                }
+
+        if event_type == "message_start":
+            # Emit the role delta once at the start
+            return {
+                "id": chunk_id,
+                "object": "chat.completion.chunk",
+                "created": created,
+                "model": model,
+                "choices": [
+                    {"index": 0, "delta": {"role": "assistant"}, "finish_reason": None}
+                ],
+            }
+
+        return None

@@ -1,33 +1,31 @@
 """POST /v1/chat/completions — OpenAI-compatible semantic cache proxy.
 
-Request / response shapes are identical to the OpenAI API so any client
-can switch to this service by changing only its ``base_url``.
+Streaming behaviour
+-------------------
+Cache HIT  + stream=true  → regular JSON response returned instantly.
+                            No chunking needed; the response is complete.
+Cache MISS + stream=true  → SSE stream forwarded chunk-by-chunk to the
+                            client while content is buffered in memory.
+                            Once ``[DONE]`` is received the assembled
+                            response is written to the cache.  If the
+                            stream errors mid-flight nothing is cached.
+Cache HIT  + stream=false → regular JSON response (unchanged).
+Cache MISS + stream=false → forward, cache, return JSON (unchanged).
 
-Provider routing (based on the ``model`` field):
-    gpt-*, o1-*, o3-*, o4-*  →  OpenAI
-    claude-*, us.anthropic.*  →  Anthropic  (translated to Messages API)
-    everything else           →  Ollama
-
-The cache layer is provider-agnostic.  ``context_key`` already includes
-the model name so a cached OpenAI response is never served for an Anthropic
-request — no extra logic required.
-
-Cache hit responses include two extra headers:
-    X-Cache: HIT
-    X-Cache-Similarity: 0.9312
-
-Cache miss responses include:
-    X-Cache: MISS
-    X-Cache-Provider: openai | anthropic | ollama
+Response headers
+----------------
+X-Cache: HIT | MISS
+X-Cache-Similarity: 0.9312   (on HIT only)
+X-Cache-Provider: openai | anthropic | ollama   (on MISS only)
 """
 
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, AsyncGenerator, Dict, List, Optional
 
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 
 from ..cache_key import LLMContext
 from ..exceptions import EmbeddingError
@@ -41,6 +39,7 @@ from .dependencies import (
     VectorStoreDep,
 )
 from .models import ChatCompletionRequest, ChatCompletionResponse
+from .streaming import stream_and_cache
 
 logger = logging.getLogger(__name__)
 
@@ -55,15 +54,11 @@ async def chat_completions(
     normalizer: NormalizerDep,
     key_builder: KeyBuilderDep,
     threshold: ThresholdDep,
-) -> JSONResponse:
-    """Semantic cache proxy with multi-provider routing.
+) -> JSONResponse | StreamingResponse:
+    """Semantic cache proxy with multi-provider routing and streaming support."""
 
-    - Streaming requests (``stream=True``) and multi-choice requests
-      (``n > 1``) bypass the cache and are forwarded directly.
-    - On embedding failure the request is forwarded transparently; the
-      cache is skipped, not surfaced as an error to the caller.
-    """
-    bypass_cache = bool(request.stream) or (request.n or 1) > 1
+    # n > 1 can't be meaningfully cached (multiple distinct choices per request)
+    bypass_cache = (request.n or 1) > 1
 
     # ------------------------------------------------------------------
     # 1. Extract query and context
@@ -73,7 +68,7 @@ async def chat_completions(
         raise HTTPException(status_code=422, detail="No user message found in messages.")
 
     context_key: Optional[str] = None
-    embedding = None
+    embedding: Optional[List[float]] = None
     normalized = normalizer.normalize(last_user_content)
 
     if not bypass_cache:
@@ -94,7 +89,7 @@ async def chat_completions(
             logger.warning("Embedding failed, bypassing cache: %s", exc)
 
         # ------------------------------------------------------------------
-        # 3. Search cache
+        # 3. Search cache (same path for streaming and non-streaming)
         # ------------------------------------------------------------------
         if embedding is not None:
             hits = store.search(embedding, k=1, threshold=threshold, context_key=context_key)
@@ -102,8 +97,8 @@ async def chat_completions(
                 entry, similarity = hits[0]
                 entry.touch()
                 logger.debug(
-                    "Cache HIT  provider=%s  sim=%.4f  query=%r",
-                    entry.metadata.get("provider", "unknown"),
+                    "Cache HIT  stream=%s  sim=%.4f  query=%r",
+                    request.stream,
                     similarity,
                     last_user_content[:60],
                 )
@@ -113,6 +108,8 @@ async def chat_completions(
                     finish_reason=entry.metadata.get("finish_reason", "stop"),
                     stored_usage=entry.metadata.get("usage"),
                 )
+                # HIT: always return instantly as JSON regardless of stream flag.
+                # The response is already complete — no benefit to chunking it.
                 return JSONResponse(
                     content=cached_response.model_dump(),
                     headers={
@@ -126,23 +123,43 @@ async def chat_completions(
     # ------------------------------------------------------------------
     provider = get_provider(request.model)
     logger.debug(
-        "Cache MISS  provider=%s  query=%r",
+        "Cache MISS  stream=%s  provider=%s  query=%r",
+        request.stream,
         provider.provider_name,
         last_user_content[:60],
     )
 
-    upstream_response = await provider.complete(request)
+    miss_headers = {
+        "X-Cache": "MISS",
+        "X-Cache-Provider": provider.provider_name,
+    }
 
     # ------------------------------------------------------------------
-    # 5. Store result (skip on bypass or embedding failure)
+    # 5a. Streaming miss — forward chunks, buffer, cache on completion
     # ------------------------------------------------------------------
+    if request.stream:
+        return StreamingResponse(
+            stream_and_cache(
+                request=request,
+                provider=provider,
+                store=store,
+                normalizer=normalizer,
+                embedding=embedding,
+                context_key=context_key,
+            ),
+            media_type="text/event-stream",
+            headers=miss_headers,
+        )
+
+    # ------------------------------------------------------------------
+    # 5b. Non-streaming miss — forward, cache, return
+    # ------------------------------------------------------------------
+    upstream_response = await provider.complete(request)
+
     if not bypass_cache and embedding is not None:
         assistant_content = (
             upstream_response["choices"][0]["message"].get("content") or ""
         )
-        finish_reason = upstream_response["choices"][0].get("finish_reason", "stop")
-        usage: Optional[Dict[str, Any]] = upstream_response.get("usage")
-
         store.add(CacheEntry(
             query=last_user_content,
             normalized_query=normalized,
@@ -150,17 +167,11 @@ async def chat_completions(
             embedding=embedding,
             context_key=context_key,
             metadata={
-                "finish_reason": finish_reason,
-                "usage": usage,
+                "finish_reason": upstream_response["choices"][0].get("finish_reason", "stop"),
+                "usage": upstream_response.get("usage"),
                 "model": upstream_response.get("model", request.model),
                 "provider": provider.provider_name,
             },
         ))
 
-    return JSONResponse(
-        content=upstream_response,
-        headers={
-            "X-Cache": "MISS",
-            "X-Cache-Provider": provider.provider_name,
-        },
-    )
+    return JSONResponse(content=upstream_response, headers=miss_headers)
