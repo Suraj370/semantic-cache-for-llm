@@ -3,18 +3,27 @@
 Request / response shapes are identical to the OpenAI API so any client
 can switch to this service by changing only its ``base_url``.
 
+Provider routing (based on the ``model`` field):
+    gpt-*, o1-*, o3-*, o4-*  →  OpenAI
+    claude-*, us.anthropic.*  →  Anthropic  (translated to Messages API)
+    everything else           →  Ollama
+
+The cache layer is provider-agnostic.  ``context_key`` already includes
+the model name so a cached OpenAI response is never served for an Anthropic
+request — no extra logic required.
+
 Cache hit responses include two extra headers:
     X-Cache: HIT
     X-Cache-Similarity: 0.9312
 
 Cache miss responses include:
     X-Cache: MISS
+    X-Cache-Provider: openai | anthropic | ollama
 """
 
 from __future__ import annotations
 
 import logging
-import os
 from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, HTTPException
@@ -23,6 +32,7 @@ from fastapi.responses import JSONResponse
 from ..cache_key import LLMContext
 from ..exceptions import EmbeddingError
 from ..models import CacheEntry
+from ..providers.registry import get_provider
 from .dependencies import (
     EmbeddingServiceDep,
     KeyBuilderDep,
@@ -46,13 +56,12 @@ async def chat_completions(
     key_builder: KeyBuilderDep,
     threshold: ThresholdDep,
 ) -> JSONResponse:
-    """Semantic cache proxy for OpenAI chat completions.
+    """Semantic cache proxy with multi-provider routing.
 
     - Streaming requests (``stream=True``) and multi-choice requests
-      (``n > 1``) bypass the cache and are forwarded directly — these
-      response shapes can't be meaningfully cached entry-per-entry.
+      (``n > 1``) bypass the cache and are forwarded directly.
     - On embedding failure the request is forwarded transparently; the
-      cache is simply skipped, not surfaced as an error.
+      cache is skipped, not surfaced as an error to the caller.
     """
     bypass_cache = bool(request.stream) or (request.n or 1) > 1
 
@@ -65,6 +74,7 @@ async def chat_completions(
 
     context_key: Optional[str] = None
     embedding = None
+    normalized = normalizer.normalize(last_user_content)
 
     if not bypass_cache:
         context = LLMContext(
@@ -78,7 +88,6 @@ async def chat_completions(
         # ------------------------------------------------------------------
         # 2. Normalize → embed
         # ------------------------------------------------------------------
-        normalized = normalizer.normalize(last_user_content)
         try:
             embedding = await embeddings.aembed_one(normalized)
         except EmbeddingError as exc:
@@ -92,8 +101,12 @@ async def chat_completions(
             if hits:
                 entry, similarity = hits[0]
                 entry.touch()
-                logger.debug("Cache HIT  sim=%.4f  query=%r", similarity, last_user_content[:60])
-
+                logger.debug(
+                    "Cache HIT  provider=%s  sim=%.4f  query=%r",
+                    entry.metadata.get("provider", "unknown"),
+                    similarity,
+                    last_user_content[:60],
+                )
                 cached_response = ChatCompletionResponse.from_cache(
                     content=entry.response,
                     model=request.model,
@@ -109,62 +122,45 @@ async def chat_completions(
                 )
 
     # ------------------------------------------------------------------
-    # 4. Cache miss — forward to OpenAI
+    # 4. Cache miss — route to the correct provider
     # ------------------------------------------------------------------
-    logger.debug("Cache MISS  query=%r", last_user_content[:60])
-    oai_response = await _forward_to_openai(request)
+    provider = get_provider(request.model)
+    logger.debug(
+        "Cache MISS  provider=%s  query=%r",
+        provider.provider_name,
+        last_user_content[:60],
+    )
+
+    upstream_response = await provider.complete(request)
 
     # ------------------------------------------------------------------
     # 5. Store result (skip on bypass or embedding failure)
     # ------------------------------------------------------------------
     if not bypass_cache and embedding is not None:
         assistant_content = (
-            oai_response["choices"][0]["message"].get("content") or ""
+            upstream_response["choices"][0]["message"].get("content") or ""
         )
-        finish_reason = oai_response["choices"][0].get("finish_reason", "stop")
-        usage: Optional[Dict[str, Any]] = oai_response.get("usage")
+        finish_reason = upstream_response["choices"][0].get("finish_reason", "stop")
+        usage: Optional[Dict[str, Any]] = upstream_response.get("usage")
 
         store.add(CacheEntry(
             query=last_user_content,
-            normalized_query=normalizer.normalize(last_user_content),
+            normalized_query=normalized,
             response=assistant_content,
             embedding=embedding,
             context_key=context_key,
             metadata={
                 "finish_reason": finish_reason,
                 "usage": usage,
-                "model": oai_response.get("model", request.model),
+                "model": upstream_response.get("model", request.model),
+                "provider": provider.provider_name,
             },
         ))
 
     return JSONResponse(
-        content=oai_response,
-        headers={"X-Cache": "MISS"},
+        content=upstream_response,
+        headers={
+            "X-Cache": "MISS",
+            "X-Cache-Provider": provider.provider_name,
+        },
     )
-
-
-# ---------------------------------------------------------------------------
-# Private — OpenAI forwarding
-# ---------------------------------------------------------------------------
-
-async def _forward_to_openai(request: ChatCompletionRequest) -> Dict[str, Any]:
-    """Forward the request to the real OpenAI API and return the raw dict."""
-    try:
-        import openai  # noqa: PLC0415
-    except ImportError as exc:
-        raise HTTPException(
-            status_code=500,
-            detail="openai package not installed.",
-        ) from exc
-
-    api_key = os.environ.get("OPENAI_API_KEY")
-    client = openai.AsyncOpenAI(api_key=api_key)
-
-    try:
-        response = await client.chat.completions.create(
-            **request.model_dump(exclude_none=True)
-        )
-        return response.model_dump()
-    except openai.OpenAIError as exc:
-        logger.error("OpenAI API error: %s", exc)
-        raise HTTPException(status_code=502, detail=f"Upstream OpenAI error: {exc}") from exc
