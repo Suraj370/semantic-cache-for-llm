@@ -1,6 +1,30 @@
-from fastapi import FastAPI
-app = FastAPI()
+from contextlib import asynccontextmanager
 
-@app.get("/")
-def main():
-    return {"message": "Hello World"}
+from fastapi import FastAPI
+
+from src.api import router
+from src.api.dependencies import _vector_store
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Warm up singletons on startup so the first request isn't slow
+    _vector_store()
+    yield
+
+
+app = FastAPI(
+    title="Semantic Cache",
+    description="OpenAI-compatible semantic cache proxy. "
+                "Change your base_url and get automatic caching — zero code changes.",
+    version="1.0.0",
+    lifespan=lifespan,
+)
+
+app.include_router(router)
+
+
+@app.get("/health")
+def health():
+    store = _vector_store()
+    return {"status": "ok", "cache_size": store.size()}
