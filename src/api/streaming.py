@@ -44,6 +44,7 @@ async def stream_and_cache(
     context_key: Optional[str],
     ttl: Optional[int] = None,
     tags: Optional[List[str]] = None,
+    request_type: Optional[str] = None,
 ) -> AsyncIterator[str]:
     """Stream provider chunks to the caller and cache the assembled response.
 
@@ -119,6 +120,8 @@ async def stream_and_cache(
         }
         if tags:
             meta["tags"] = tags
+        if request_type:
+            meta["request_type"] = request_type
         store.add(CacheEntry(
             query=last_user,
             normalized_query=normalizer.normalize(last_user),

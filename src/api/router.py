@@ -27,10 +27,12 @@ from typing import Any, AsyncGenerator, Dict, List, Optional
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
 
+from ..adaptive_threshold import default_adaptive_threshold_manager
 from ..cache_key import LLMContext
 from ..exceptions import EmbeddingError
 from ..models import CacheEntry
 from ..providers.registry import get_provider
+from ..request_type import default_request_type_classifier
 from ..ttl_classifier import TtlTier, default_classifier
 from .dependencies import (
     EmbeddingServiceDep,
@@ -74,7 +76,18 @@ async def chat_completions(
     if ttl_tier is TtlTier.NO_CACHE:
         bypass_cache = True
     entry_ttl: Optional[int] = ttl_tier.seconds if ttl_tier is not TtlTier.NO_CACHE else None
-    logger.debug("TTL tier=%s ttl=%s query=%r", ttl_tier.value, entry_ttl, last_user_content[:60])
+
+    # Classify request type and resolve adaptive similarity threshold.
+    # ThresholdDep (env var) acts as a global floor — never undercut it.
+    request_type = default_request_type_classifier.classify(last_user_content)
+    adaptive_threshold = default_adaptive_threshold_manager.get_threshold(
+        request_type, global_floor=threshold
+    )
+    logger.debug(
+        "TTL tier=%s ttl=%s  request_type=%s  threshold=%.4f  query=%r",
+        ttl_tier.value, entry_ttl, request_type.value, adaptive_threshold,
+        last_user_content[:60],
+    )
 
     context_key: Optional[str] = None
     embedding: Optional[List[float]] = None
@@ -101,14 +114,13 @@ async def chat_completions(
         # 3. Search cache (same path for streaming and non-streaming)
         # ------------------------------------------------------------------
         if embedding is not None:
-            hits = store.search(embedding, k=1, threshold=threshold, context_key=context_key)
+            hits = store.search(embedding, k=1, threshold=adaptive_threshold, context_key=context_key)
             if hits:
                 entry, similarity = hits[0]
                 entry.touch()
                 logger.debug(
-                    "Cache HIT  stream=%s  sim=%.4f  query=%r",
-                    request.stream,
-                    similarity,
+                    "Cache HIT  stream=%s  sim=%.4f  type=%s  query=%r",
+                    request.stream, similarity, request_type.value,
                     last_user_content[:60],
                 )
                 cached_response = ChatCompletionResponse.from_cache(
@@ -118,12 +130,15 @@ async def chat_completions(
                     stored_usage=entry.metadata.get("usage"),
                 )
                 # HIT: always return instantly as JSON regardless of stream flag.
-                # The response is already complete — no benefit to chunking it.
+                # Expose entry_id + request_type so clients can POST /v1/cache/feedback.
                 return JSONResponse(
                     content=cached_response.model_dump(),
                     headers={
                         "X-Cache": "HIT",
                         "X-Cache-Similarity": f"{similarity:.4f}",
+                        "X-Cache-Entry-Id": entry.id,
+                        "X-Cache-Request-Type": request_type.value,
+                        "X-Cache-Threshold": f"{adaptive_threshold:.4f}",
                     },
                 )
 
@@ -157,6 +172,7 @@ async def chat_completions(
                 context_key=context_key,
                 ttl=entry_ttl,
                 tags=request.cache_tags or None,
+                request_type=request_type.value,
             ),
             media_type="text/event-stream",
             headers=miss_headers,
@@ -177,6 +193,7 @@ async def chat_completions(
             "model": upstream_response.get("model", request.model),
             "provider": provider.provider_name,
             "ttl_tier": ttl_tier.value,
+            "request_type": request_type.value,
         }
         if request.cache_tags:
             meta["tags"] = request.cache_tags

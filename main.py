@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from src.api import invalidation_router, router, tuner_router
+from src.api import feedback_router, invalidation_router, router, tuner_router
 from src.api.dependencies import _vector_store
 
 
@@ -24,6 +24,7 @@ app = FastAPI(
 app.include_router(router)
 app.include_router(invalidation_router)
 app.include_router(tuner_router)
+app.include_router(feedback_router)
 
 
 @app.get("/health")
