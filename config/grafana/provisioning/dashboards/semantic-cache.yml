@@ -1,0 +1,13 @@
+apiVersion: 1
+
+providers:
+  - name: semantic-cache
+    orgId: 1
+    folder: Semantic Cache
+    folderUid: semantic-cache
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 30
+    options:
+      path: /etc/grafana/dashboards

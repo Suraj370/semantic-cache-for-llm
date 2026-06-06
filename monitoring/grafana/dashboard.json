@@ -1,0 +1,450 @@
+{
+  "title": "Semantic Cache",
+  "uid": "semantic-cache-v1",
+  "description": "Hit rate, cost savings, latency comparison, cache capacity, and near-miss analysis",
+  "tags": ["semantic-cache", "llm", "caching"],
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "time": { "from": "now-1h", "to": "now" },
+
+  "templating": {
+    "list": [
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "query": "prometheus",
+        "label": "Datasource",
+        "current": { "text": "Prometheus", "value": "prometheus" }
+      },
+      {
+        "name": "model",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
+        "query": "label_values(semantic_cache_hits_total, model)",
+        "label": "Model",
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {}
+      }
+    ]
+  },
+
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Overview",
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 1 },
+      "collapsed": false
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Hit Rate",
+      "description": "Fraction of requests served from cache (all models, last 5 min)",
+      "gridPos": { "x": 0, "y": 1, "w": 6, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "auto",
+        "orientation": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red",    "value": null },
+              { "color": "yellow", "value": 0.3  },
+              { "color": "green",  "value": 0.6  }
+            ]
+          },
+          "mappings": []
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(rate(semantic_cache_hits_total[5m])) / (sum(rate(semantic_cache_hits_total[5m])) + sum(rate(semantic_cache_misses_total[5m])))",
+          "legendFormat": "Hit Rate",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Total Cost Saved",
+      "description": "Cumulative USD saved by serving responses from cache instead of calling the LLM",
+      "gridPos": { "x": 6, "y": 1, "w": 6, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "area"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 4,
+          "color": { "mode": "fixed", "fixedColor": "green" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(semantic_cache_cost_saved_usd_total)",
+          "legendFormat": "Saved (all time)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Cost Saved / Hour",
+      "description": "USD saved in the last 1 hour and last 24 hours",
+      "gridPos": { "x": 12, "y": 1, "w": 6, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "orientation": "vertical"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 4,
+          "color": { "mode": "fixed", "fixedColor": "green" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(semantic_cache_cost_saved_usd_total[1h]))",
+          "legendFormat": "Last 1h",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(semantic_cache_cost_saved_usd_total[24h]))",
+          "legendFormat": "Last 24h",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Cache Size",
+      "description": "Current number of entries in the vector store",
+      "gridPos": { "x": 18, "y": 1, "w": 6, "h": 4 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "area"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              { "color": "green",  "value": null },
+              { "color": "yellow", "value": 70   },
+              { "color": "red",    "value": 90   }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "semantic_cache_size",
+          "legendFormat": "Entries",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 10,
+      "type": "row",
+      "title": "Latency: Cached vs Uncached",
+      "gridPos": { "x": 0, "y": 5, "w": 24, "h": 1 },
+      "collapsed": false
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "Latency P50 / P95 / P99 — HIT vs MISS",
+      "description": "Cache hits should be 10-100× faster than LLM calls. Any overlap indicates embedding overhead.",
+      "gridPos": { "x": 0, "y": 6, "w": 24, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "p95"] },
+        "tooltip": { "mode": "multi" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": { "lineWidth": 2, "fillOpacity": 10 }
+        },
+        "overrides": [
+          { "matcher": { "id": "byRegexp", "options": ".*HIT.*" },  "properties": [{ "id": "color", "value": { "fixedColor": "green",  "mode": "fixed" } }] },
+          { "matcher": { "id": "byRegexp", "options": ".*MISS.*" }, "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }] }
+        ]
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(semantic_cache_request_latency_seconds_bucket{result='hit'}[$__rate_interval])) by (le))",
+          "legendFormat": "HIT P50",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(semantic_cache_request_latency_seconds_bucket{result='hit'}[$__rate_interval])) by (le))",
+          "legendFormat": "HIT P95",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(semantic_cache_request_latency_seconds_bucket{result='hit'}[$__rate_interval])) by (le))",
+          "legendFormat": "HIT P99",
+          "refId": "C"
+        },
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(semantic_cache_request_latency_seconds_bucket{result='miss'}[$__rate_interval])) by (le))",
+          "legendFormat": "MISS P50",
+          "refId": "D"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(semantic_cache_request_latency_seconds_bucket{result='miss'}[$__rate_interval])) by (le))",
+          "legendFormat": "MISS P95",
+          "refId": "E"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(semantic_cache_request_latency_seconds_bucket{result='miss'}[$__rate_interval])) by (le))",
+          "legendFormat": "MISS P99",
+          "refId": "F"
+        }
+      ]
+    },
+
+    {
+      "id": 20,
+      "type": "row",
+      "title": "Hit Rate Over Time",
+      "gridPos": { "x": 0, "y": 14, "w": 24, "h": 1 },
+      "collapsed": false
+    },
+    {
+      "id": 21,
+      "type": "timeseries",
+      "title": "Overall Hit Rate (7 days)",
+      "description": "How threshold changes and new cache entries affect hit rate over the past week.",
+      "gridPos": { "x": 0, "y": 15, "w": 14, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": { "lineWidth": 2, "fillOpacity": 20 },
+          "color": { "mode": "fixed", "fixedColor": "blue" }
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(rate(semantic_cache_hits_total[$__rate_interval])) / (sum(rate(semantic_cache_hits_total[$__rate_interval])) + sum(rate(semantic_cache_misses_total[$__rate_interval])))",
+          "legendFormat": "Hit Rate",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "type": "timeseries",
+      "title": "Hit Rate by Model",
+      "gridPos": { "x": 14, "y": 15, "w": 10, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean"] },
+        "tooltip": { "mode": "multi" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "custom": { "lineWidth": 2 }
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by (model) (rate(semantic_cache_hits_total{model=~\"$model\"}[$__rate_interval])) / (sum by (model) (rate(semantic_cache_hits_total{model=~\"$model\"}[$__rate_interval])) + sum by (model) (rate(semantic_cache_misses_total{model=~\"$model\"}[$__rate_interval])))",
+          "legendFormat": "{{model}}",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 30,
+      "type": "row",
+      "title": "Cache Quality & Similarity",
+      "gridPos": { "x": 0, "y": 23, "w": 24, "h": 1 },
+      "collapsed": false
+    },
+    {
+      "id": 31,
+      "type": "timeseries",
+      "title": "Similarity Score Distribution (Hits)",
+      "description": "P50/P90 of cosine similarity for cache hits. Low P50 may indicate the threshold is too permissive.",
+      "gridPos": { "x": 0, "y": 24, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0.5,
+          "max": 1,
+          "custom": { "lineWidth": 2 }
+        }
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(semantic_cache_similarity_score_bucket[$__rate_interval])) by (le))",
+          "legendFormat": "Similarity P50",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.90, sum(rate(semantic_cache_similarity_score_bucket[$__rate_interval])) by (le))",
+          "legendFormat": "Similarity P90",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "type": "timeseries",
+      "title": "Near-Miss Rate",
+      "description": "Queries that fell just below the similarity threshold. High near-miss rate suggests threshold could be lowered or query normalisation improved.",
+      "gridPos": { "x": 12, "y": 24, "w": 12, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean"] },
+        "tooltip": { "mode": "multi" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": { "lineWidth": 2, "fillOpacity": 15 }
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by (request_type) (rate(semantic_cache_near_misses_total[$__rate_interval]))",
+          "legendFormat": "{{request_type}}",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 40,
+      "type": "row",
+      "title": "Cumulative Cost Savings",
+      "gridPos": { "x": 0, "y": 32, "w": 24, "h": 1 },
+      "collapsed": false
+    },
+    {
+      "id": 41,
+      "type": "timeseries",
+      "title": "Cumulative Cost Saved (USD) by Model",
+      "description": "The money shot. Each LLM call avoided saves the full output cost.",
+      "gridPos": { "x": 0, "y": 33, "w": 24, "h": 8 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "calcs": ["lastNotNull"] },
+        "tooltip": { "mode": "multi" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 4,
+          "custom": { "lineWidth": 2, "fillOpacity": 20 }
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by (model) (semantic_cache_cost_saved_usd_total{model=~\"$model\"})",
+          "legendFormat": "{{model}}",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "id": 50,
+      "type": "row",
+      "title": "Cache Capacity",
+      "gridPos": { "x": 0, "y": 41, "w": 24, "h": 1 },
+      "collapsed": false
+    },
+    {
+      "id": 51,
+      "type": "timeseries",
+      "title": "Cache Size Over Time",
+      "gridPos": { "x": 0, "y": 42, "w": 16, "h": 7 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "custom": { "lineWidth": 2, "fillOpacity": 15 },
+          "color": { "mode": "fixed", "fixedColor": "purple" }
+        }
+      },
+      "targets": [
+        { "expr": "semantic_cache_size", "legendFormat": "Entries", "refId": "A" }
+      ]
+    },
+    {
+      "id": 52,
+      "type": "timeseries",
+      "title": "LRU Eviction Rate",
+      "gridPos": { "x": 16, "y": 42, "w": 8, "h": 7 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "evps",
+          "custom": { "lineWidth": 2 },
+          "color": { "mode": "fixed", "fixedColor": "red" }
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(semantic_cache_evictions_total[$__rate_interval])",
+          "legendFormat": "Evictions/s",
+          "refId": "A"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    service: semantic-cache
+
+scrape_configs:
+  - job_name: semantic-cache-api
+    static_configs:
+      - targets: ['api:8000']
+    metrics_path: /metrics
+    scrape_interval: 15s
+    scrape_timeout: 10s

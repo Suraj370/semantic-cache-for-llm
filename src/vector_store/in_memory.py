@@ -75,6 +75,8 @@ class InMemoryVectorStore(VectorStore):
         # FAISS index; rebuilt lazily
         self._index: Any = None
         self._index_dirty: bool = False
+        # Cumulative LRU eviction counter (for metrics)
+        self._eviction_count: int = 0
 
     # ------------------------------------------------------------------
     # VectorStore interface
@@ -316,6 +318,12 @@ class InMemoryVectorStore(VectorStore):
             self._embeddings[idx] = np.array(entry.embedding, dtype=np.float32)
         self._index_dirty = True
 
+    @property
+    def eviction_count(self) -> int:
+        """Total LRU evictions since this store was created."""
+        with self._lock:
+            return self._eviction_count
+
     def _evict_lru(self, count: int = 1) -> None:
         """Evict *count* least-recently-used entries (caller holds lock)."""
         if not self._entries:
@@ -324,5 +332,7 @@ class InMemoryVectorStore(VectorStore):
             self._entries.keys(),
             key=lambda eid: self._entries[eid].last_accessed,
         )
-        for eid in sorted_ids[:count]:
+        evicted = sorted_ids[:count]
+        for eid in evicted:
             self.remove(eid)
+        self._eviction_count += len(evicted)

@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.gitignore
+*.md
+uv.lock
+.env
+.env.*
+src-old/
+=0.20.0
+grafana_data/
+prometheus_data/

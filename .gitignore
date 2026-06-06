@@ -1,0 +1,26 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Benchmark output
+benchmark_*.csv
+
+# Docker
+grafana_data/
+prometheus_data/
+redis_data/
+
+# Editor
+.vscode/
+.idea/
+*.swp

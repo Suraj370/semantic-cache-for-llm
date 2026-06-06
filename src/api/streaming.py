@@ -24,8 +24,10 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from typing import AsyncIterator, List, Optional
 
+import monitoring.metrics as metrics
 from ..models import CacheEntry
 from ..providers.base import LLMProvider
 from ..query_normalizer import QueryNormalizer
@@ -45,6 +47,7 @@ async def stream_and_cache(
     ttl: Optional[int] = None,
     tags: Optional[List[str]] = None,
     request_type: Optional[str] = None,
+    start_monotonic: Optional[float] = None,
 ) -> AsyncIterator[str]:
     """Stream provider chunks to the caller and cache the assembled response.
 
@@ -107,6 +110,15 @@ async def stream_and_cache(
             exc,
         )
         raise
+
+    # Record miss latency now that the full stream has completed (or failed)
+    if start_monotonic is not None:
+        metrics.record_miss(
+            model=request.model,
+            request_type=request_type or "conversational",
+            latency_s=time.monotonic() - start_monotonic,
+        )
+        metrics.update_cache_size(store.size())
 
     # Only cache when the stream finished cleanly and we have an embedding
     if stream_complete and embedding is not None and content_buffer:

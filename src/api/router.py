@@ -22,6 +22,7 @@ X-Cache-Provider: openai | anthropic | ollama   (on MISS only)
 from __future__ import annotations
 
 import logging
+import time
 from typing import Any, AsyncGenerator, Dict, List, Optional
 
 from fastapi import APIRouter, HTTPException
@@ -34,6 +35,14 @@ from ..models import CacheEntry
 from ..providers.registry import get_provider
 from ..request_type import default_request_type_classifier
 from ..ttl_classifier import TtlTier, default_classifier
+
+import monitoring.metrics as metrics
+from monitoring.cost import estimate_savings, estimate_tokens_saved
+from monitoring.near_miss import NearMiss, default_near_miss_tracker
+
+# Queries with similarity in [threshold - _NEAR_MISS_MARGIN, threshold) are
+# tracked as near-misses.  One search call covers both ranges.
+_NEAR_MISS_MARGIN: float = 0.10
 from .dependencies import (
     EmbeddingServiceDep,
     KeyBuilderDep,
@@ -59,6 +68,7 @@ async def chat_completions(
     threshold: ThresholdDep,
 ) -> JSONResponse | StreamingResponse:
     """Semantic cache proxy with multi-provider routing and streaming support."""
+    _t0 = time.monotonic()
 
     # n > 1 can't be meaningfully cached (multiple distinct choices per request)
     bypass_cache = (request.n or 1) > 1
@@ -114,20 +124,63 @@ async def chat_completions(
         # 3. Search cache (same path for streaming and non-streaming)
         # ------------------------------------------------------------------
         if embedding is not None:
-            hits = store.search(embedding, k=1, threshold=adaptive_threshold, context_key=context_key)
+            # Widen search to [threshold - margin, 1.0] so a single call
+            # captures both qualifying hits and near-miss candidates.
+            near_miss_floor = max(0.0, adaptive_threshold - _NEAR_MISS_MARGIN)
+            candidates = store.search(
+                embedding, k=5, threshold=near_miss_floor, context_key=context_key
+            )
+            hits       = [(e, s) for e, s in candidates if s >= adaptive_threshold]
+            near_misses_found = [(e, s) for e, s in candidates if s < adaptive_threshold]
+
+            # Record near-misses regardless of whether there was a hit
+            for nm_entry, nm_sim in near_misses_found:
+                metrics.record_near_miss(request_type.value, nm_sim)
+                default_near_miss_tracker.record(NearMiss(
+                    query=last_user_content,
+                    normalized_query=normalized,
+                    similarity=nm_sim,
+                    threshold=adaptive_threshold,
+                    request_type=request_type.value,
+                    context_key=context_key,
+                ))
+
             if hits:
                 entry, similarity = hits[0]
                 entry.touch()
+                latency_s = time.monotonic() - _t0
+
+                # Estimate cost/tokens saved from stored usage if available
+                stored_usage = entry.metadata.get("usage") or {}
+                tokens_saved = estimate_tokens_saved(
+                    input_tokens=stored_usage.get("prompt_tokens"),
+                    output_tokens=stored_usage.get("completion_tokens"),
+                )
+                cost_saved = estimate_savings(
+                    model=entry.metadata.get("model", request.model),
+                    input_tokens=stored_usage.get("prompt_tokens"),
+                    output_tokens=stored_usage.get("completion_tokens"),
+                )
+                metrics.record_hit(
+                    model=request.model,
+                    request_type=request_type.value,
+                    latency_s=latency_s,
+                    similarity=similarity,
+                    tokens_saved=tokens_saved,
+                    cost_saved_usd=cost_saved,
+                )
+                metrics.update_cache_size(store.size())
+
                 logger.debug(
-                    "Cache HIT  stream=%s  sim=%.4f  type=%s  query=%r",
+                    "Cache HIT  stream=%s  sim=%.4f  type=%s  latency=%.3fs  saved=$%.5f  query=%r",
                     request.stream, similarity, request_type.value,
-                    last_user_content[:60],
+                    latency_s, cost_saved, last_user_content[:60],
                 )
                 cached_response = ChatCompletionResponse.from_cache(
                     content=entry.response,
                     model=request.model,
                     finish_reason=entry.metadata.get("finish_reason", "stop"),
-                    stored_usage=entry.metadata.get("usage"),
+                    stored_usage=stored_usage,
                 )
                 # HIT: always return instantly as JSON regardless of stream flag.
                 # Expose entry_id + request_type so clients can POST /v1/cache/feedback.
@@ -173,6 +226,7 @@ async def chat_completions(
                 ttl=entry_ttl,
                 tags=request.cache_tags or None,
                 request_type=request_type.value,
+                start_monotonic=_t0,
             ),
             media_type="text/event-stream",
             headers=miss_headers,
@@ -182,6 +236,14 @@ async def chat_completions(
     # 5b. Non-streaming miss — forward, cache, return
     # ------------------------------------------------------------------
     upstream_response = await provider.complete(request)
+    metrics.record_miss(
+        model=request.model,
+        request_type=request_type.value,
+        latency_s=time.monotonic() - _t0,
+    )
+    metrics.update_cache_size(store.size())
+    metrics.record_evictions(store.eviction_count - getattr(store, "_last_reported_evictions", 0))
+    store._last_reported_evictions = store.eviction_count  # type: ignore[attr-defined]
 
     if not bypass_cache and embedding is not None:
         assistant_content = (
