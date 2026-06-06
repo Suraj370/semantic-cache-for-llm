@@ -31,6 +31,7 @@ from ..cache_key import LLMContext
 from ..exceptions import EmbeddingError
 from ..models import CacheEntry
 from ..providers.registry import get_provider
+from ..ttl_classifier import TtlTier, default_classifier
 from .dependencies import (
     EmbeddingServiceDep,
     KeyBuilderDep,
@@ -66,6 +67,14 @@ async def chat_completions(
     last_user_content = request.last_user_content()
     if not last_user_content:
         raise HTTPException(status_code=422, detail="No user message found in messages.")
+
+    # Classify TTL tier from the user prompt.
+    # NO_CACHE (live/real-time queries) bypasses the cache entirely.
+    ttl_tier = default_classifier.classify(last_user_content)
+    if ttl_tier is TtlTier.NO_CACHE:
+        bypass_cache = True
+    entry_ttl: Optional[int] = ttl_tier.seconds if ttl_tier is not TtlTier.NO_CACHE else None
+    logger.debug("TTL tier=%s ttl=%s query=%r", ttl_tier.value, entry_ttl, last_user_content[:60])
 
     context_key: Optional[str] = None
     embedding: Optional[List[float]] = None
@@ -146,6 +155,7 @@ async def chat_completions(
                 normalizer=normalizer,
                 embedding=embedding,
                 context_key=context_key,
+                ttl=entry_ttl,
             ),
             media_type="text/event-stream",
             headers=miss_headers,
@@ -166,11 +176,13 @@ async def chat_completions(
             response=assistant_content,
             embedding=embedding,
             context_key=context_key,
+            ttl=entry_ttl,
             metadata={
                 "finish_reason": upstream_response["choices"][0].get("finish_reason", "stop"),
                 "usage": upstream_response.get("usage"),
                 "model": upstream_response.get("model", request.model),
                 "provider": provider.provider_name,
+                "ttl_tier": ttl_tier.value,
             },
         ))
 

@@ -82,6 +82,7 @@ from .exceptions import ConfigError, EmbeddingError, SemanticCacheError, VectorS
 from .models import CacheEntry
 from .query_normalizer import QueryNormalizer
 from .similarity import batch_cosine_similarity, cosine_similarity, find_most_similar
+from .ttl_classifier import TtlClassifier, TtlTier, default_classifier
 from .vector_store import InMemoryVectorStore, VectorStore
 
 __all__ = [
@@ -102,6 +103,10 @@ __all__ = [
     "InMemoryVectorStore",
     # Domain model
     "CacheEntry",
+    # TTL classification
+    "TtlTier",
+    "TtlClassifier",
+    "default_classifier",
     # Utilities
     "QueryNormalizer",
     "cosine_similarity",

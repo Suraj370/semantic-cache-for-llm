@@ -42,6 +42,7 @@ async def stream_and_cache(
     normalizer: QueryNormalizer,
     embedding: Optional[List[float]],
     context_key: Optional[str],
+    ttl: Optional[int] = None,
 ) -> AsyncIterator[str]:
     """Stream provider chunks to the caller and cache the assembled response.
 
@@ -115,6 +116,7 @@ async def stream_and_cache(
             response=full_content,
             embedding=embedding,
             context_key=context_key,
+            ttl=ttl,
             metadata={
                 "finish_reason": finish_reason,
                 "usage": usage,
