@@ -156,6 +156,7 @@ async def chat_completions(
                 embedding=embedding,
                 context_key=context_key,
                 ttl=entry_ttl,
+                tags=request.cache_tags or None,
             ),
             media_type="text/event-stream",
             headers=miss_headers,
@@ -170,6 +171,15 @@ async def chat_completions(
         assistant_content = (
             upstream_response["choices"][0]["message"].get("content") or ""
         )
+        meta: Dict[str, Any] = {
+            "finish_reason": upstream_response["choices"][0].get("finish_reason", "stop"),
+            "usage": upstream_response.get("usage"),
+            "model": upstream_response.get("model", request.model),
+            "provider": provider.provider_name,
+            "ttl_tier": ttl_tier.value,
+        }
+        if request.cache_tags:
+            meta["tags"] = request.cache_tags
         store.add(CacheEntry(
             query=last_user_content,
             normalized_query=normalized,
@@ -177,13 +187,7 @@ async def chat_completions(
             embedding=embedding,
             context_key=context_key,
             ttl=entry_ttl,
-            metadata={
-                "finish_reason": upstream_response["choices"][0].get("finish_reason", "stop"),
-                "usage": upstream_response.get("usage"),
-                "model": upstream_response.get("model", request.model),
-                "provider": provider.provider_name,
-                "ttl_tier": ttl_tier.value,
-            },
+            metadata=meta,
         ))
 
     return JSONResponse(content=upstream_response, headers=miss_headers)

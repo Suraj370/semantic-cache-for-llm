@@ -43,6 +43,7 @@ async def stream_and_cache(
     embedding: Optional[List[float]],
     context_key: Optional[str],
     ttl: Optional[int] = None,
+    tags: Optional[List[str]] = None,
 ) -> AsyncIterator[str]:
     """Stream provider chunks to the caller and cache the assembled response.
 
@@ -110,6 +111,14 @@ async def stream_and_cache(
     if stream_complete and embedding is not None and content_buffer:
         full_content = "".join(content_buffer)
         last_user = request.last_user_content() or ""
+        meta = {
+            "finish_reason": finish_reason,
+            "usage": usage,
+            "model": response_model,
+            "provider": provider.provider_name,
+        }
+        if tags:
+            meta["tags"] = tags
         store.add(CacheEntry(
             query=last_user,
             normalized_query=normalizer.normalize(last_user),
@@ -117,12 +126,7 @@ async def stream_and_cache(
             embedding=embedding,
             context_key=context_key,
             ttl=ttl,
-            metadata={
-                "finish_reason": finish_reason,
-                "usage": usage,
-                "model": response_model,
-                "provider": provider.provider_name,
-            },
+            metadata=meta,
         ))
         logger.debug(
             "Cached streamed response  provider=%s  tokens=%d",

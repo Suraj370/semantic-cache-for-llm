@@ -96,3 +96,60 @@ class VectorStore(ABC):
     @abstractmethod
     def __iter__(self) -> Iterator[CacheEntry]:
         """Iterate over all stored entries (including expired)."""
+
+    # ------------------------------------------------------------------
+    # Bulk invalidation helpers (concrete — backends get them for free)
+    # ------------------------------------------------------------------
+
+    def invalidate_by_context_key(self, context_key: str) -> int:
+        """Remove all entries whose ``context_key`` matches exactly.
+
+        Use this when a system prompt changes: pass the old context key
+        (SHA-256 hex digest produced by :class:`~src.cache_key.CacheKeyBuilder`)
+        to wipe every cached response that was generated under it.
+
+        Returns:
+            Number of entries removed.
+        """
+        ids = [e.id for e in self if e.context_key == context_key]
+        return sum(1 for eid in ids if self.remove(eid))
+
+    def invalidate_by_model(self, model: str) -> int:
+        """Remove all entries whose ``metadata["model"]`` equals *model*.
+
+        Use this after a model upgrade: pass the old model name (e.g.
+        ``"gpt-4o"``). Entries for the new model will be populated fresh.
+
+        Returns:
+            Number of entries removed.
+        """
+        ids = [e.id for e in self if e.metadata.get("model") == model]
+        return sum(1 for eid in ids if self.remove(eid))
+
+    def invalidate_by_query_prefix(self, prefix: str) -> int:
+        """Remove all entries whose original query starts with *prefix*.
+
+        Useful for topic-scoped manual invalidation (e.g. all queries
+        beginning with ``"Tell me about our pricing"``).
+
+        Returns:
+            Number of entries removed.
+        """
+        lower = prefix.lower()
+        ids = [e.id for e in self if e.query.lower().startswith(lower)]
+        return sum(1 for eid in ids if self.remove(eid))
+
+    def invalidate_by_tag(self, tag: str) -> int:
+        """Remove all entries that carry *tag* in ``metadata["tags"]``.
+
+        Tags are written as a list of strings stored under the ``"tags"``
+        key in :attr:`~src.models.CacheEntry.metadata`.
+
+        Returns:
+            Number of entries removed.
+        """
+        ids = [
+            e.id for e in self
+            if tag in e.metadata.get("tags", [])
+        ]
+        return sum(1 for eid in ids if self.remove(eid))

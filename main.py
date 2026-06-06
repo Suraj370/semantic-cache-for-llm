@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from src.api import router
+from src.api import invalidation_router, router
 from src.api.dependencies import _vector_store
 
 
@@ -22,6 +22,7 @@ app = FastAPI(
 )
 
 app.include_router(router)
+app.include_router(invalidation_router)
 
 
 @app.get("/health")

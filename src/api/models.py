@@ -39,6 +39,9 @@ class ChatCompletionRequest(BaseModel):
     user: Optional[str] = None
     seed: Optional[int] = None
     response_format: Optional[Dict[str, Any]] = None
+    # Non-OpenAI extension: optional tags stored in the cache entry's metadata
+    # so entries can later be invalidated in bulk via DELETE /v1/cache/tag/{tag}.
+    cache_tags: Optional[List[str]] = None
 
     # ------------------------------------------------------------------
     # Helpers used by the router
