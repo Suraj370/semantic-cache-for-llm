@@ -1,0 +1,238 @@
+{
+  "uid": "semantic-cache-eval",
+  "title": "Semantic Cache — Eval",
+  "description": "Live metrics from go test ./eval/ — refreshes every 5 s during a run",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "5s",
+  "time": { "from": "now-15m", "to": "now" },
+  "timepicker": {},
+  "templating": {
+    "list": [
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "query": "prometheus",
+        "label": "Prometheus",
+        "hide": 0
+      }
+    ]
+  },
+  "panels": [
+
+    { "id": 1, "type": "stat", "title": "F1 Score",
+      "gridPos": { "h": 5, "w": 4, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "auto" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit", "min": 0, "max": 1,
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "red",    "value": null },
+            { "color": "yellow", "value": 0.70 },
+            { "color": "green",  "value": 0.90 }
+          ]}
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "eval_f1_score", "legendFormat": "F1", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 2, "type": "stat", "title": "Precision",
+      "gridPos": { "h": 5, "w": 4, "x": 4, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "auto" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit", "min": 0, "max": 1,
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "red",    "value": null },
+            { "color": "yellow", "value": 0.75 },
+            { "color": "green",  "value": 0.92 }
+          ]}
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "eval_precision", "legendFormat": "Precision", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 3, "type": "stat", "title": "Recall",
+      "gridPos": { "h": 5, "w": 4, "x": 8, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "auto" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit", "min": 0, "max": 1,
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "red",    "value": null },
+            { "color": "yellow", "value": 0.75 },
+            { "color": "green",  "value": 0.92 }
+          ]}
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "eval_recall", "legendFormat": "Recall", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 4, "type": "stat", "title": "Passing Cases",
+      "gridPos": { "h": 5, "w": 4, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "auto" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "sum(eval_cases_pass_total)", "legendFormat": "Pass", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 5, "type": "stat", "title": "Failing Cases",
+      "gridPos": { "h": 5, "w": 4, "x": 16, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "auto" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "green", "value": null },
+            { "color": "yellow", "value": 1 },
+            { "color": "red",    "value": 3 }
+          ]}
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "sum(eval_cases_fail_total)", "legendFormat": "Fail", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 6, "type": "stat", "title": "Pass Rate",
+      "gridPos": { "h": 5, "w": 4, "x": 20, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "auto" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit", "min": 0, "max": 1,
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "red",    "value": null },
+            { "color": "yellow", "value": 0.80 },
+            { "color": "green",  "value": 0.95 }
+          ]}
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "sum(eval_cases_pass_total) / (sum(eval_cases_pass_total) + sum(eval_cases_fail_total))",
+                    "legendFormat": "Pass Rate", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 7, "type": "bargauge", "title": "Passes by Category",
+      "gridPos": { "h": 9, "w": 12, "x": 0, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "valueMode": "color"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short", "min": 0,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "color": { "mode": "fixed", "fixedColor": "green" }
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "eval_cases_pass_total", "legendFormat": "{{category}}", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 8, "type": "bargauge", "title": "Failures by Category",
+      "gridPos": { "h": 9, "w": 12, "x": 12, "y": 5 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "valueMode": "color"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short", "min": 0,
+          "thresholds": { "mode": "absolute", "steps": [
+            { "color": "green",  "value": null },
+            { "color": "yellow", "value": 1 },
+            { "color": "red",    "value": 2 }
+          ]},
+          "color": { "mode": "thresholds" }
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "eval_cases_fail_total", "legendFormat": "{{category}}", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 9, "type": "timeseries", "title": "Lookup Outcomes (rate/s)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "tooltip": { "mode": "multi" }, "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": {
+        "defaults": { "unit": "reqps", "custom": { "lineWidth": 2, "fillOpacity": 10 } },
+        "overrides": []
+      },
+      "targets": [
+        { "expr": "rate(semantic_cache_lookups_total{outcome='direct_hit'}[30s])",  "legendFormat": "direct hit",  "refId": "A", "datasource": { "type": "prometheus", "uid": "${datasource}" } },
+        { "expr": "rate(semantic_cache_lookups_total{outcome='semantic_hit'}[30s])", "legendFormat": "semantic hit", "refId": "B", "datasource": { "type": "prometheus", "uid": "${datasource}" } },
+        { "expr": "rate(semantic_cache_lookups_total{outcome='miss'}[30s])",         "legendFormat": "miss",         "refId": "C", "datasource": { "type": "prometheus", "uid": "${datasource}" } },
+        { "expr": "rate(semantic_cache_lookups_total{outcome='skipped'}[30s])",      "legendFormat": "skipped",      "refId": "D", "datasource": { "type": "prometheus", "uid": "${datasource}" } }
+      ]
+    },
+
+    { "id": 10, "type": "timeseries", "title": "Embedding Latency (p50 / p95 / p99)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "tooltip": { "mode": "multi" }, "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": {
+        "defaults": { "unit": "s", "custom": { "lineWidth": 2, "fillOpacity": 5 } },
+        "overrides": []
+      },
+      "targets": [
+        { "expr": "histogram_quantile(0.50, rate(semantic_cache_embedding_duration_seconds_bucket[30s]))", "legendFormat": "p50", "refId": "A", "datasource": { "type": "prometheus", "uid": "${datasource}" } },
+        { "expr": "histogram_quantile(0.95, rate(semantic_cache_embedding_duration_seconds_bucket[30s]))", "legendFormat": "p95", "refId": "B", "datasource": { "type": "prometheus", "uid": "${datasource}" } },
+        { "expr": "histogram_quantile(0.99, rate(semantic_cache_embedding_duration_seconds_bucket[30s]))", "legendFormat": "p99", "refId": "C", "datasource": { "type": "prometheus", "uid": "${datasource}" } }
+      ]
+    },
+
+    { "id": 11, "type": "timeseries", "title": "Lookup Latency p95 — by Outcome",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 22 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "tooltip": { "mode": "multi" }, "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": {
+        "defaults": { "unit": "s", "custom": { "lineWidth": 2, "fillOpacity": 5 } },
+        "overrides": []
+      },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, rate(semantic_cache_lookup_duration_seconds_bucket[30s])) by (outcome)", "legendFormat": "{{outcome}}", "refId": "A", "datasource": { "type": "prometheus", "uid": "${datasource}" } }
+      ]
+    },
+
+    { "id": 12, "type": "timeseries", "title": "Embedding Tokens Consumed (cumulative)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "tooltip": { "mode": "multi" }, "legend": { "displayMode": "list", "placement": "bottom" } },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "custom": { "lineWidth": 2, "fillOpacity": 10 } },
+        "overrides": []
+      },
+      "targets": [
+        { "expr": "semantic_cache_embedding_tokens_total", "legendFormat": "tokens", "refId": "A", "datasource": { "type": "prometheus", "uid": "${datasource}" } }
+      ]
+    }
+
+  ]
+}

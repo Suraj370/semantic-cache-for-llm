@@ -1,0 +1,1617 @@
+[
+  {
+    "id": "tc-001",
+    "category": "direct_hit",
+    "description": "Exact same single-turn chat request",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of France?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Paris is the capital of France."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of France?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "direct_hit",
+      "note": "Identical request must always hit the O(1) direct path."
+    }
+  },
+  {
+    "id": "tc-002",
+    "category": "direct_hit",
+    "description": "Same request with different capitalisation — normalised to the same hash",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "what is the boiling point of water?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Water boils at 100°C (212°F) at sea level."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "WHAT IS THE BOILING POINT OF WATER?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "direct_hit",
+      "note": "normalizeText() lowercases before hashing, so case variants collide in the same bucket."
+    }
+  },
+  {
+    "id": "tc-003",
+    "category": "direct_hit",
+    "description": "Exact same multi-turn conversation",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Who invented the printing press?"}},
+          {"role": "assistant", "content": {"text": "Johannes Gutenberg invented the movable-type printing press around 1440."}},
+          {"role": "user",      "content": {"text": "Where was he from?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Gutenberg was from Mainz, in the Holy Roman Empire (present-day Germany)."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Who invented the printing press?"}},
+          {"role": "assistant", "content": {"text": "Johannes Gutenberg invented the movable-type printing press around 1440."}},
+          {"role": "user",      "content": {"text": "Where was he from?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "direct_hit",
+      "note": "Identical multi-turn conversation hashes to the same UUIDv5."
+    }
+  },
+  {
+    "id": "tc-004",
+    "category": "direct_hit",
+    "description": "Same request with cache_type forced to direct-only",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What year did World War II end?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "World War II ended in 1945."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "cache_type": "direct",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What year did World War II end?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "direct_hit",
+      "note": "cache_type=direct skips semantic path; identical request still hits direct."
+    }
+  },
+  {
+    "id": "tc-005",
+    "category": "semantic_hit",
+    "description": "Paraphrase: capital of France",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of France?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Paris is the capital of France."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Which city serves as the capital of France?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Synonym rephrasing; cosine similarity should comfortably exceed 0.85."
+    }
+  },
+  {
+    "id": "tc-006",
+    "category": "semantic_hit",
+    "description": "Paraphrase: machine learning explanation",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Explain machine learning in simple terms"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Machine learning is a branch of AI where systems learn from data to make predictions without being explicitly programmed."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is machine learning, explained simply?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Same intent, reordered phrase; strong semantic overlap."
+    }
+  },
+  {
+    "id": "tc-007",
+    "category": "semantic_hit",
+    "description": "Paraphrase: why does it rain",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What causes rain?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Rain forms when water vapour in clouds cools, condenses into droplets, and falls due to gravity."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Why does it rain?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "'What causes X' and 'Why does X happen' are semantically equivalent."
+    }
+  },
+  {
+    "id": "tc-008",
+    "category": "semantic_hit",
+    "description": "Paraphrase: telephone inventor",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Who invented the telephone?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Alexander Graham Bell is credited with inventing the telephone in 1876."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Who is credited with inventing the telephone?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Active vs passive phrasing of the same factual question."
+    }
+  },
+  {
+    "id": "tc-009",
+    "category": "semantic_hit",
+    "description": "Paraphrase: speed of light",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the speed of light?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The speed of light in a vacuum is approximately 299,792,458 metres per second."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "How fast does light travel?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "'What is the speed of X' vs 'How fast does X travel' — near-identical meaning."
+    }
+  },
+  {
+    "id": "tc-010",
+    "category": "semantic_hit",
+    "description": "Paraphrase: French Revolution summary",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Summarize the French Revolution briefly"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The French Revolution (1789–1799) was a period of radical political and societal change in France that overthrew the monarchy and established a republic."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Give me a brief overview of the French Revolution"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "'Summarize briefly' vs 'give a brief overview' — interchangeable intent."
+    }
+  },
+  {
+    "id": "tc-011",
+    "category": "semantic_miss",
+    "description": "Similar structure, different country: France vs Germany",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of France?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Paris is the capital of France."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Germany?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Structurally identical template with a different named entity — must not cross-contaminate."
+    }
+  },
+  {
+    "id": "tc-012",
+    "category": "semantic_miss",
+    "description": "Related phenomenon but different: rain vs snow",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What causes rain?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Rain forms when water vapour in clouds cools, condenses into droplets, and falls due to gravity."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What causes snow?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Rain and snow are related precipitation types but have different answers — a hit here is a harmful false positive."
+    }
+  },
+  {
+    "id": "tc-013",
+    "category": "semantic_miss",
+    "description": "Adjacent ML concepts: machine learning vs deep learning",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Explain machine learning in simple terms"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Machine learning is a branch of AI where systems learn from data to make predictions without being explicitly programmed."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Explain deep learning in simple terms"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Deep learning is a subset of ML. Answering 'deep learning' with an 'ML' response is technically wrong."
+    }
+  },
+  {
+    "id": "tc-014",
+    "category": "semantic_miss",
+    "description": "Similar invention template: telephone vs telegraph",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Who invented the telephone?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Alexander Graham Bell is credited with inventing the telephone in 1876."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Who invented the telegraph?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Telephone (Bell) vs telegraph (Morse) — different inventors, dangerous false positive."
+    }
+  },
+  {
+    "id": "tc-015",
+    "category": "semantic_miss",
+    "description": "Similar physics question: speed of light vs speed of sound",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the speed of light?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The speed of light in a vacuum is approximately 299,792,458 metres per second."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the speed of sound?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Both are 'speed of X' physics questions with very different numeric answers."
+    }
+  },
+  {
+    "id": "tc-016",
+    "category": "multiturn_hit",
+    "description": "Photosynthesis conversation, same topic paraphrased",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is photosynthesis?"}},
+          {"role": "assistant", "content": {"text": "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to produce glucose and oxygen."}},
+          {"role": "user",      "content": {"text": "What plants use it most?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Tropical rainforest plants, with their large leaf surfaces and year-round sunlight, are among the most active photosynthesizers."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Can you explain photosynthesis?"}},
+          {"role": "assistant", "content": {"text": "Photosynthesis is a biological process where plants convert light energy into chemical energy, producing food and releasing oxygen."}},
+          {"role": "user",      "content": {"text": "Which plants use it the most?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Same topic, same follow-up intent — full conversation embedding should be highly similar."
+    }
+  },
+  {
+    "id": "tc-017",
+    "category": "multiturn_hit",
+    "description": "Napoleon conversation, paraphrased phrasing",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Who was Napoleon Bonaparte?"}},
+          {"role": "assistant", "content": {"text": "Napoleon Bonaparte was a French military leader and emperor who rose to prominence during the French Revolution."}},
+          {"role": "user",      "content": {"text": "When did he die?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Napoleon Bonaparte died on May 5, 1821, on the island of Saint Helena."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Tell me about Napoleon"}},
+          {"role": "assistant", "content": {"text": "Napoleon was a famous French military commander and statesman who became Emperor of France."}},
+          {"role": "user",      "content": {"text": "What year did he pass away?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Same person, same follow-up question in different phrasing — full conversation embedding aligns."
+    }
+  },
+  {
+    "id": "tc-018",
+    "category": "multiturn_miss",
+    "description": "Ambiguous follow-up: rivers 'second largest' vs monuments 'second largest'",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is the largest river in Europe?"}},
+          {"role": "assistant", "content": {"text": "The Volga River, stretching 3,530 km, is the largest river in Europe."}},
+          {"role": "user",      "content": {"text": "What is the second largest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The Danube is the second largest river in Europe at approximately 2,860 km."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is the largest monument in Europe?"}},
+          {"role": "assistant", "content": {"text": "The Eiffel Tower is considered one of the most iconic monuments in Europe."}},
+          {"role": "user",      "content": {"text": "What is the second largest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Core risk case: shared last message 'what is the second largest?' must NOT pull a river answer into a monument query."
+    }
+  },
+  {
+    "id": "tc-019",
+    "category": "multiturn_miss",
+    "description": "Ambiguous follow-up: fastest animal vs fastest vehicle",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is the fastest animal on Earth?"}},
+          {"role": "assistant", "content": {"text": "The cheetah is the fastest land animal, reaching speeds up to 120 km/h."}},
+          {"role": "user",      "content": {"text": "What is the second fastest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The pronghorn antelope is the second fastest land animal, reaching speeds of about 88 km/h."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is the fastest production vehicle?"}},
+          {"role": "assistant", "content": {"text": "The Bugatti Chiron Super Sport holds a top speed record of approximately 490 km/h."}},
+          {"role": "user",      "content": {"text": "What is the second fastest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Animals vs vehicles: different domains despite identical last user message."
+    }
+  },
+  {
+    "id": "tc-020",
+    "category": "multiturn_miss",
+    "description": "Ambiguous follow-up: tallest mountain vs tallest building",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is the tallest mountain in Asia?"}},
+          {"role": "assistant", "content": {"text": "Mount Everest, at 8,849 metres, is the tallest mountain in Asia and the world."}},
+          {"role": "user",      "content": {"text": "What is the second tallest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "K2 is the second tallest mountain at 8,611 metres."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is the tallest building in Asia?"}},
+          {"role": "assistant", "content": {"text": "The Merdeka 118 in Kuala Lumpur, at 678.9 metres, is the tallest building in Asia."}},
+          {"role": "user",      "content": {"text": "What is the second tallest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Mountains vs buildings: same ordinal question pattern, entirely different subject matter."
+    }
+  },
+  {
+    "id": "tc-021",
+    "category": "param_isolation",
+    "description": "Same prompt, different model — must not cross model boundaries",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Japan?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Tokyo is the capital of Japan."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Japan?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Model name participates in directCacheID (UUIDv5) and the semantic filter — different model must miss."
+    }
+  },
+  {
+    "id": "tc-022",
+    "category": "param_isolation",
+    "description": "Same prompt, different provider — must not cross provider boundaries",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Italy?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Rome is the capital of Italy."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "anthropic",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Italy?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Provider name participates in directCacheID and the semantic filter — different provider must miss."
+    }
+  },
+  {
+    "id": "tc-023",
+    "category": "param_isolation",
+    "description": "Same prompt, different temperature — params_hash differs, semantic filter rejects",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Spain?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Madrid is the capital of Spain."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Spain?"}}],
+        "params": {"temperature": 0.9}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Temperature is hashed into params_hash; the semantic search filter rejects entries with a different params_hash."
+    }
+  },
+  {
+    "id": "tc-024",
+    "category": "conversation_limit",
+    "description": "4-message conversation exceeds ConversationHistoryThreshold=3 — Lookup returns (nil, nil, nil)",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Tell me about the Roman Empire"}},
+          {"role": "assistant", "content": {"text": "The Roman Empire was one of the most powerful civilisations in history."}},
+          {"role": "user",      "content": {"text": "When did it fall?"}},
+          {"role": "assistant", "content": {"text": "The Western Roman Empire fell in 476 AD."}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "476 AD"}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Tell me about the Roman Empire"}},
+          {"role": "assistant", "content": {"text": "The Roman Empire was one of the most powerful civilisations in history."}},
+          {"role": "user",      "content": {"text": "When did it fall?"}},
+          {"role": "assistant", "content": {"text": "The Western Roman Empire fell in 476 AD."}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "skipped",
+      "note": "4 messages > threshold (3): Lookup returns (nil, nil, nil). No entry is written or read."
+    }
+  },
+  {
+    "id": "tc-025",
+    "category": "conversation_limit",
+    "description": "3-message conversation exactly at threshold — proceeds normally and hits direct cache",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is the largest ocean?"}},
+          {"role": "assistant", "content": {"text": "The Pacific Ocean is the largest ocean, covering about 165 million square kilometres."}},
+          {"role": "user",      "content": {"text": "What is the second largest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The Atlantic Ocean is the second largest, covering about 106 million square kilometres."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is the largest ocean?"}},
+          {"role": "assistant", "content": {"text": "The Pacific Ocean is the largest ocean, covering about 165 million square kilometres."}},
+          {"role": "user",      "content": {"text": "What is the second largest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "direct_hit",
+      "note": "3 messages == threshold: 3 > 3 is false, so caching proceeds. Identical request hits the direct path."
+    }
+  },
+
+  {
+    "id": "tc-026",
+    "category": "direct_hit",
+    "description": "Same request with leading/trailing whitespace — trimmed by normalizeText before hashing",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the largest ocean?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The Pacific Ocean is the largest ocean on Earth."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "  What is the largest ocean?  "}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "direct_hit",
+      "note": "normalizeText trims spaces before hashing — whitespace variants land in the same bucket."
+    }
+  },
+  {
+    "id": "tc-027",
+    "category": "direct_hit",
+    "description": "Text-type (non-chat) exact prompt match",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "text",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "prompt": "Summarize the water cycle in two sentences.",
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Water evaporates from surfaces, rises and condenses into clouds, then falls as precipitation and returns to bodies of water. This continuous movement is driven by solar energy and gravity."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "text",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "prompt": "Summarize the water cycle in two sentences.",
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "direct_hit",
+      "note": "Text-type requests are hashed via the prompt field; identical prompt hits the direct path."
+    }
+  },
+
+  {
+    "id": "tc-028",
+    "category": "semantic_hit",
+    "description": "Paraphrase: how to reverse a string in Python",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "How do I reverse a string in Python?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "You can reverse a string in Python using slicing: reversed_str = my_str[::-1]"}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the Pythonic way to reverse a string?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Same programming task, different phrasing — embedding similarity should be high."
+    }
+  },
+  {
+    "id": "tc-029",
+    "category": "semantic_hit",
+    "description": "Paraphrase: Newton's first law",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is Newton's first law of motion?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Newton's first law states that an object at rest stays at rest, and an object in motion stays in motion, unless acted on by an external force."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Can you explain Newton's first law of motion?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "'What is X' vs 'Can you explain X' — high semantic overlap on the same named concept."
+    }
+  },
+  {
+    "id": "tc-030",
+    "category": "semantic_hit",
+    "description": "Paraphrase: distance from Earth to the Moon",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "How far is the Moon from Earth?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The average distance from the Earth to the Moon is about 384,400 kilometres."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the distance between the Earth and the Moon?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "'How far is X from Y' vs 'What is the distance between X and Y' — semantically identical."
+    }
+  },
+  {
+    "id": "tc-031",
+    "category": "semantic_hit",
+    "description": "Paraphrase: author of Pride and Prejudice",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Who wrote Pride and Prejudice?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Pride and Prejudice was written by Jane Austen, published in 1813."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Who is the author of Pride and Prejudice?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "'Who wrote X' vs 'Who is the author of X' — interchangeable intent."
+    }
+  },
+  {
+    "id": "tc-032",
+    "category": "semantic_hit",
+    "description": "Paraphrase: symptoms of the flu",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What are the symptoms of the flu?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Common flu symptoms include fever, chills, muscle aches, cough, congestion, headache, and fatigue."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What symptoms does the flu cause?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "'What are the symptoms of X' vs 'What symptoms does X cause' — same medical inquiry."
+    }
+  },
+  {
+    "id": "tc-033",
+    "category": "semantic_hit",
+    "description": "Paraphrase: sorting a list in Python",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "How do I sort a list in Python?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Use list.sort() to sort in-place, or sorted(list) to return a new sorted list."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the Python method to sort a list?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Same Python task rephrased; strong topical and lexical overlap."
+    }
+  },
+
+  {
+    "id": "tc-034",
+    "category": "semantic_miss",
+    "description": "Newton's first law vs Newton's second law — same template, different concept",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is Newton's first law of motion?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Newton's first law states that an object at rest stays at rest unless acted on by an external force."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is Newton's second law of motion?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "threshold": 0.95
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "First law (inertia) vs second law (F=ma) — serving the wrong law is a factual error. Threshold raised to 0.95 to prevent false positive (similarity ~0.90)."
+    }
+  },
+  {
+    "id": "tc-035",
+    "category": "semantic_miss",
+    "description": "Flu symptoms vs flu causes — same disease, different question",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What are the symptoms of the flu?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Common flu symptoms include fever, chills, muscle aches, cough, congestion, headache, and fatigue."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What are the causes of the flu?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Symptoms vs causes of the same disease — entirely different answers despite identical disease name."
+    }
+  },
+  {
+    "id": "tc-036",
+    "category": "semantic_miss",
+    "description": "Distance to Moon vs distance to Mars — same template, different bodies",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "How far is the Moon from Earth?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The average distance from the Earth to the Moon is about 384,400 kilometres."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "How far is Mars from Earth?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Moon (~384,400 km) vs Mars (~225 million km) — different celestial body, very different numeric answer."
+    }
+  },
+  {
+    "id": "tc-037",
+    "category": "semantic_miss",
+    "description": "Sort list in Python vs sort array in JavaScript — same task, different language",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "How do I sort a list in Python?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Use list.sort() to sort in-place, or sorted(list) to return a new sorted list."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "How do I sort an array in JavaScript?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Python sort syntax differs from JavaScript — returning Python code for a JavaScript question is wrong."
+    }
+  },
+  {
+    "id": "tc-038",
+    "category": "semantic_miss",
+    "description": "Different book authors — Pride and Prejudice vs Crime and Punishment",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Who wrote Pride and Prejudice?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Pride and Prejudice was written by Jane Austen, published in 1813."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Who wrote Crime and Punishment?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Austen vs Dostoevsky — serving the wrong author is a clear factual error."
+    }
+  },
+
+  {
+    "id": "tc-039",
+    "category": "multiturn_hit",
+    "description": "Climate change conversation, same topic paraphrased",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What is climate change?"}},
+          {"role": "assistant", "content": {"text": "Climate change refers to long-term shifts in global temperatures and weather patterns, primarily driven by human activities since the 1800s."}},
+          {"role": "user",      "content": {"text": "What are the main causes?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The main causes are burning fossil fuels, deforestation, and industrial processes that release greenhouse gases like CO2 and methane."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Can you explain climate change?"}},
+          {"role": "assistant", "content": {"text": "Climate change is the long-term alteration of temperature and typical weather patterns, largely caused by human activity such as burning fossil fuels."}},
+          {"role": "user",      "content": {"text": "What causes it?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Same topic, same follow-up intent ('causes') — full conversation embedding should align."
+    }
+  },
+  {
+    "id": "tc-040",
+    "category": "multiturn_hit",
+    "description": "Python list operations conversation, paraphrased",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "How do I create a list in Python?"}},
+          {"role": "assistant", "content": {"text": "You create a list in Python using square brackets: my_list = [1, 2, 3]"}},
+          {"role": "user",      "content": {"text": "How do I add an element to it?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Use the append() method: my_list.append(4). This adds 4 to the end of the list."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "What's the syntax for creating a list in Python?"}},
+          {"role": "assistant", "content": {"text": "In Python, lists are created with square brackets: items = [1, 2, 3]"}},
+          {"role": "user",      "content": {"text": "How can I add items to the list?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Same Python topic and follow-up; paraphrased phrasing of both turns."
+    }
+  },
+
+  {
+    "id": "tc-041",
+    "category": "multiturn_miss",
+    "description": "Ambiguous follow-up 'how long does it take?' — cooking vs travel context",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "I want to make pasta from scratch"}},
+          {"role": "assistant", "content": {"text": "Making pasta from scratch involves mixing flour and eggs, then kneading the dough until smooth."}},
+          {"role": "user",      "content": {"text": "How long does it take?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Making fresh pasta from scratch takes about 45 to 60 minutes including resting time for the dough."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "I want to travel from New York to London"}},
+          {"role": "assistant", "content": {"text": "There are regular direct flights from New York's JFK airport to London Heathrow operated by several airlines."}},
+          {"role": "user",      "content": {"text": "How long does it take?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Cooking time (~1 hr) vs flight time (~7 hrs) — shared follow-up must not cross domains."
+    }
+  },
+  {
+    "id": "tc-042",
+    "category": "multiturn_miss",
+    "description": "Ambiguous follow-up 'what are the main causes?' — WWI vs inflation context",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Tell me about World War I"}},
+          {"role": "assistant", "content": {"text": "World War I was a global conflict from 1914 to 1918, primarily fought in Europe between the Allied and Central Powers."}},
+          {"role": "user",      "content": {"text": "What are the main causes?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The main causes were nationalism, imperialism, militarism, and the alliance system — remembered by the acronym MAIN."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Tell me about inflation"}},
+          {"role": "assistant", "content": {"text": "Inflation is the rate at which the general level of prices for goods and services rises, reducing purchasing power over time."}},
+          {"role": "user",      "content": {"text": "What are the main causes?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "WWI causes (MAIN) vs inflation causes (demand-pull, cost-push) — completely different answers."
+    }
+  },
+  {
+    "id": "tc-043",
+    "category": "multiturn_miss",
+    "description": "Ambiguous follow-up 'who is considered the greatest?' — scientists vs artists context",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Who were the most influential scientists of the 20th century?"}},
+          {"role": "assistant", "content": {"text": "Among the most influential are Albert Einstein, Marie Curie, Richard Feynman, and Niels Bohr."}},
+          {"role": "user",      "content": {"text": "Who is considered the greatest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Albert Einstein is widely considered the greatest scientist of the 20th century for his theory of relativity."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [
+          {"role": "user",      "content": {"text": "Who were the most influential artists of the 20th century?"}},
+          {"role": "assistant", "content": {"text": "Key figures include Pablo Picasso, Salvador Dalí, Andy Warhol, and Jackson Pollock."}},
+          {"role": "user",      "content": {"text": "Who is considered the greatest?"}}
+        ],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Einstein (science) vs Picasso (art) — returning Einstein's name for an art question is factually wrong."
+    }
+  },
+
+  {
+    "id": "tc-044",
+    "category": "param_isolation",
+    "description": "Same prompt, different cache_key — tenant scope must be isolated",
+    "stored": {
+      "cache_key": "tenant-a",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Brazil?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Brasília is the capital of Brazil."}
+    },
+    "query": {
+      "cache_key": "tenant-b",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Brazil?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "cache_key partitions entries by tenant; tenant-b must not read tenant-a entries."
+    }
+  },
+  {
+    "id": "tc-045",
+    "category": "param_isolation",
+    "description": "Same prompt, chat vs chat_stream — stream flag is in params_hash so buckets differ",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Canada?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Ottawa is the capital of Canada."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat_stream",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of Canada?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "buildParamsMetadata adds stream=true/false to the params map; different stream flag → different params_hash → separate bucket."
+    }
+  },
+
+  {
+    "id": "tc-046",
+    "category": "edge_case",
+    "description": "Very short greeting paraphrase: 'Hi' vs 'Hello'",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Hi"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Hello! How can I help you today?"}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Hello"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Single-word greetings with equivalent meaning; embedding models typically score these very highly."
+    }
+  },
+  {
+    "id": "tc-047",
+    "category": "edge_case",
+    "description": "Verbose vs concise phrasing of the same factual question",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the capital of France?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "Paris is the capital of France."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "Could you please tell me what the capital city of France is?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "Polite padding words do not change meaning; the core semantic content is identical."
+    }
+  },
+  {
+    "id": "tc-048",
+    "category": "edge_case",
+    "description": "Different arithmetic: square root of 16 vs cube root of 27",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the square root of 16?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The square root of 16 is 4."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the cube root of 27?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Different operations and operands; both are 'root of N' questions but answering 4 for a cube-root query is wrong."
+    }
+  },
+  {
+    "id": "tc-049",
+    "category": "edge_case",
+    "description": "Different data structures: linked list vs binary tree",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is a linked list?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "A linked list is a linear data structure where each element (node) contains a value and a pointer to the next node."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is a binary tree?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "miss",
+      "note": "Both are 'What is a data structure' questions but define entirely different structures."
+    }
+  },
+  {
+    "id": "tc-050",
+    "category": "edge_case",
+    "description": "British vs American English spelling — colour vs color",
+    "stored": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the colour of the sky?"}}],
+        "params": {"temperature": 0.7}
+      },
+      "response": {"content": "The sky appears blue during the day due to Rayleigh scattering of sunlight."}
+    },
+    "query": {
+      "cache_key": "eval",
+      "request": {
+        "type": "chat",
+        "provider": "openai",
+        "model": "gpt-4o",
+        "messages": [{"role": "user", "content": {"text": "What is the color of the sky?"}}],
+        "params": {"temperature": 0.7}
+      }
+    },
+    "expected": {
+      "outcome": "semantic_hit",
+      "note": "British vs American spelling of the same word; embedding models treat these as semantically identical."
+    }
+  }
+]

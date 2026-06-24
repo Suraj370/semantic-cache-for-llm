@@ -1,0 +1,14 @@
+global:
+  scrape_interval:     5s   # fast enough to capture a ~60s eval run
+  evaluation_interval: 5s
+
+scrape_configs:
+  # cache library metrics (your application must expose /metrics on :2112)
+  - job_name: semantic-cache
+    static_configs:
+      - targets: ["host.docker.internal:2112"]
+
+  # Prometheus self-monitoring
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
