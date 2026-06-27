@@ -141,10 +141,18 @@ var VectorStoreProperties = map[string]propertyDef{
 		DataType:    propertyTypeBoolean,
 		Description: "Sentinel flag identifying entries written by this cache (filter-only)",
 	},
+	"input_tokens": {
+		DataType:    propertyTypeInteger,
+		Description: "Input token count of the original LLM request (used for cost-saving metrics)",
+	},
+	"output_tokens": {
+		DataType:    propertyTypeInteger,
+		Description: "Output token count of the original LLM response (used for cost-saving metrics)",
+	},
 }
 
 // selectFields is the default projection for reads (excludes filter-only fields).
-var selectFields = []string{"response", "stream_chunks", "expires_at", "cache_key", "provider", "model"}
+var selectFields = []string{"response", "stream_chunks", "expires_at", "cache_key", "provider", "model", "input_tokens", "output_tokens"}
 
 // Property type aliases (matching vectorstore.VectorStorePropertyType values).
 type propertyDef struct {

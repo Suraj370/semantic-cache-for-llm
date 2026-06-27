@@ -51,6 +51,14 @@ func init() {
 	prometheus.MustRegister(evalF1, evalPrecision, evalRecall, evalCategoryPass, evalCategoryFail)
 }
 
+// estimateTokens approximates token count from raw bytes (1 token ≈ 4 bytes).
+func estimateTokens(data []byte) int {
+	if n := len(data) / 4; n > 0 {
+		return n
+	}
+	return 1
+}
+
 // startMetricsServer starts an HTTP server on :2112 exposing /metrics.
 // The server stays alive for 30 s after the returned stop() is called so
 // Prometheus has time to scrape the final values.
@@ -203,7 +211,7 @@ func TestSemanticCacheEval(t *testing.T) {
 	c, err := cache.New(ctx, &cache.Config{
 		Namespace:                    namespace,
 		TTL:                          2 * time.Hour,
-		Threshold:                    0.80,
+		Threshold:                    0.90,
 		EmbeddingDimension:           1536,
 		DefaultCacheKey:              "eval",
 		ConversationHistoryThreshold: 3,
@@ -227,7 +235,9 @@ func TestSemanticCacheEval(t *testing.T) {
 		if miss == nil {
 			continue // already cached (duplicate stored request)
 		}
-		if err := miss.Store(tc.Stored.Response); err != nil {
+		reqBytes, _ := json.Marshal(tc.Stored.Request)
+		in, out := estimateTokens(reqBytes), estimateTokens(tc.Stored.Response)
+		if err := miss.StoreWithTokens(tc.Stored.Response, in, out); err != nil {
 			t.Logf("[%s] store error: %v", tc.ID, err)
 		}
 	}

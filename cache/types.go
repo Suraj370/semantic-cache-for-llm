@@ -168,7 +168,17 @@ func (m *MissHandle) Store(response json.RawMessage) error {
 	if m.noStore {
 		return nil
 	}
-	return m.cache.storeResponse(m, response)
+	return m.cache.storeResponse(m, response, 0, 0)
+}
+
+// StoreWithTokens writes a non-streaming response along with the token counts
+// from the LLM call. inputTokens and outputTokens are used to calculate cost
+// savings reported via MetricsRecorder.RecordCostSaved on future cache hits.
+func (m *MissHandle) StoreWithTokens(response json.RawMessage, inputTokens, outputTokens int) error {
+	if m.noStore {
+		return nil
+	}
+	return m.cache.storeResponse(m, response, inputTokens, outputTokens)
 }
 
 // StoreStream writes a completed streaming response to the cache.
@@ -179,7 +189,16 @@ func (m *MissHandle) StoreStream(chunks []json.RawMessage) error {
 	if m.noStore {
 		return nil
 	}
-	return m.cache.storeStreamResponse(m, chunks)
+	return m.cache.storeStreamResponse(m, chunks, 0, 0)
+}
+
+// StoreStreamWithTokens writes a completed streaming response along with token
+// counts for cost-saving metrics. See StoreWithTokens for details.
+func (m *MissHandle) StoreStreamWithTokens(chunks []json.RawMessage, inputTokens, outputTokens int) error {
+	if m.noStore {
+		return nil
+	}
+	return m.cache.storeStreamResponse(m, chunks, inputTokens, outputTokens)
 }
 
 // ── Internal stream chunk used during write ────────────────────────────────

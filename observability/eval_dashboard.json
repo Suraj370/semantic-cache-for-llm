@@ -221,6 +221,37 @@
       ]
     },
 
+    { "id": 13, "type": "stat", "title": "Estimated Cost Saved (USD)",
+      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 30 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "auto" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD", "min": 0,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "sum(semantic_cache_cost_saved_dollars_total)", "legendFormat": "Total Saved", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
+    { "id": 14, "type": "bargauge", "title": "Cost Saved by Model (USD)",
+      "gridPos": { "h": 5, "w": 18, "x": 6, "y": 30 },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "orientation": "horizontal", "displayMode": "gradient", "valueMode": "color" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD", "min": 0,
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "color": { "mode": "fixed", "fixedColor": "green" }
+        },
+        "overrides": []
+      },
+      "targets": [{ "expr": "semantic_cache_cost_saved_dollars_total", "legendFormat": "{{model}}", "refId": "A",
+                    "datasource": { "type": "prometheus", "uid": "${datasource}" } }]
+    },
+
     { "id": 12, "type": "timeseries", "title": "Embedding Tokens Consumed (cumulative)",
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
       "datasource": { "type": "prometheus", "uid": "${datasource}" },

@@ -26,6 +26,12 @@ type MetricsRecorder interface {
 	// did not surface to the caller (e.g. a failing ANN search that fell
 	// through to a miss). operation names: "direct_search", "semantic_search".
 	RecordError(operation string)
+
+	// RecordCostSaved records the estimated LLM cost avoided by a cache hit.
+	// inputTokens and outputTokens are the token counts stored when the entry
+	// was written via StoreWithTokens. model is used to look up the price per token.
+	// Called with zeros when token counts were not recorded at store time.
+	RecordCostSaved(inputTokens, outputTokens int, model string)
 }
 
 // LookupOutcome classifies the result of a single Lookup call.
@@ -52,6 +58,7 @@ func (noopMetricsRecorder) RecordEmbedding(int64, int, error)      {}
 func (noopMetricsRecorder) RecordStore(int64, error)               {}
 func (noopMetricsRecorder) RecordEviction()                        {}
 func (noopMetricsRecorder) RecordError(string)                     {}
+func (noopMetricsRecorder) RecordCostSaved(int, int, string)       {}
 
 // Option applies an optional setting to a Cache at construction time.
 type Option func(*Cache)

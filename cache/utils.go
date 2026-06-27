@@ -11,9 +11,11 @@ import (
 	"github.com/cespare/xxhash/v2"
 )
 
-// normalizeText lower-cases and trims text for consistent embedding and hashing.
+// normalizeText lower-cases, trims whitespace, and strips trailing punctuation
+// so that "Where is my order?" and "where is my order" hash identically.
 func normalizeText(text string) string {
-	return strings.ToLower(strings.TrimSpace(text))
+	t := strings.ToLower(strings.TrimSpace(text))
+	return strings.TrimRight(t, "?!.,;:")
 }
 
 // marshalSorted encodes v as JSON. Go's encoding/json already sorts map keys at
@@ -236,4 +238,22 @@ func paramsToMap(params json.RawMessage) map[string]interface{} {
 		return make(map[string]interface{})
 	}
 	return m
+}
+
+// readIntProperty reads an integer payload field from vector store properties.
+// Qdrant returns JSON numbers as float64; this handles float64, int64, and int.
+func readIntProperty(props map[string]interface{}, key string) int {
+	v, ok := props[key]
+	if !ok || v == nil {
+		return 0
+	}
+	switch n := v.(type) {
+	case float64:
+		return int(n)
+	case int64:
+		return int(n)
+	case int:
+		return n
+	}
+	return 0
 }

@@ -139,6 +139,17 @@ func (c *Cache) buildResponseFromResult(ctx context.Context, result vectorstore.
 
 	latency := time.Since(lookupStart).Milliseconds()
 
+	// Read stored token counts and report cost saved for this cache hit.
+	inputTokens := readIntProperty(result.Properties, "input_tokens")
+	outputTokens := readIntProperty(result.Properties, "output_tokens")
+	if inputTokens > 0 || outputTokens > 0 {
+		model := req.Model
+		if m, ok := result.Properties["model"].(string); ok && m != "" {
+			model = m
+		}
+		c.metrics.RecordCostSaved(inputTokens, outputTokens, model)
+	}
+
 	if req.Type.IsStream() {
 		chunks, err := parseStreamChunks(result.Properties["stream_chunks"])
 		if err != nil || len(chunks) == 0 {

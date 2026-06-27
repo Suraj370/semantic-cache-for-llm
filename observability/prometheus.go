@@ -14,6 +14,31 @@ import (
 	"github.com/suraj370/semantic-cache/cache"
 )
 
+// modelPricing maps model name → [inputPricePerMToken, outputPricePerMToken] in USD.
+var modelPricing = map[string][2]float64{
+	"gpt-4o":              {2.50, 10.00},
+	"gpt-4o-mini":         {0.15, 0.60},
+	"gpt-4-turbo":         {10.00, 30.00},
+	"gpt-3.5-turbo":       {0.50, 1.50},
+	"claude-opus-4-8":     {15.00, 75.00},
+	"claude-sonnet-4-6":   {3.00, 15.00},
+	"claude-haiku-4-5":    {0.80, 4.00},
+	"gemini-1.5-pro":      {3.50, 10.50},
+	"gemini-1.5-flash":    {0.075, 0.30},
+	"gemini-2.0-flash":    {0.10, 0.40},
+}
+
+// costSaved returns estimated USD saved for a cache hit given token counts and model.
+// Falls back to gpt-4o pricing when the model is not in the table.
+func costSaved(inputTokens, outputTokens int, model string) float64 {
+	pricing, ok := modelPricing[model]
+	if !ok {
+		pricing = modelPricing["gpt-4o"] // reasonable default
+	}
+	return float64(inputTokens)/1_000_000*pricing[0] +
+		float64(outputTokens)/1_000_000*pricing[1]
+}
+
 // PrometheusRecorder implements cache.MetricsRecorder using the Prometheus
 // client library. All metrics are registered under the "semantic_cache" namespace.
 type PrometheusRecorder struct {
@@ -26,6 +51,7 @@ type PrometheusRecorder struct {
 	storeErrs prometheus.Counter
 	evictions prometheus.Counter
 	errors    *prometheus.CounterVec
+	costSaved *prometheus.CounterVec
 }
 
 // NewPrometheusRecorder creates and registers all Prometheus metrics.
@@ -96,11 +122,18 @@ func NewPrometheusRecorder(reg prometheus.Registerer) (*PrometheusRecorder, erro
 		Help:      "Total number of internal errors caught during lookup, by operation.",
 	}, []string{"operation"})
 
+	r.costSaved = prometheus.NewCounterVec(prometheus.CounterOpts{
+		Namespace: "semantic_cache",
+		Name:      "cost_saved_dollars_total",
+		Help:      "Estimated USD saved by serving responses from cache instead of calling the LLM, by model.",
+	}, []string{"model"})
+
 	collectors := []prometheus.Collector{
 		r.lookups, r.lookupDur,
 		r.embedDur, r.embedToks, r.embedErrs,
 		r.storeDur, r.storeErrs,
 		r.evictions, r.errors,
+		r.costSaved,
 	}
 	for _, col := range collectors {
 		if err = reg.Register(col); err != nil {
@@ -145,6 +178,14 @@ func (r *PrometheusRecorder) RecordEviction() {
 // RecordError implements cache.MetricsRecorder.
 func (r *PrometheusRecorder) RecordError(operation string) {
 	r.errors.WithLabelValues(operation).Inc()
+}
+
+// RecordCostSaved implements cache.MetricsRecorder.
+func (r *PrometheusRecorder) RecordCostSaved(inputTokens, outputTokens int, model string) {
+	if inputTokens == 0 && outputTokens == 0 {
+		return
+	}
+	r.costSaved.WithLabelValues(model).Add(costSaved(inputTokens, outputTokens, model))
 }
 
 func msToSeconds(ms int64) float64 {

@@ -246,7 +246,9 @@ func (c *Cache) Lookup(ctx context.Context, requestID string, req Request, opts 
 }
 
 // storeResponse writes a non-streaming response to the cache.
-func (c *Cache) storeResponse(m *MissHandle, response json.RawMessage) error {
+// inputTokens and outputTokens are stored as metadata so future hits can
+// report estimated cost savings via MetricsRecorder.RecordCostSaved.
+func (c *Cache) storeResponse(m *MissHandle, response json.RawMessage, inputTokens, outputTokens int) error {
 	if len(response) == 0 {
 		return fmt.Errorf("response is empty")
 	}
@@ -254,6 +256,8 @@ func (c *Cache) storeResponse(m *MissHandle, response json.RawMessage) error {
 	meta := buildUnifiedMetadata(m.opts.provider, m.opts.model, m.opts.paramsHash, m.opts.cacheKey, m.opts.ttl)
 	meta["response"] = string(response)
 	meta["stream_chunks"] = []string{}
+	meta["input_tokens"] = inputTokens
+	meta["output_tokens"] = outputTokens
 
 	c.writersWg.Add(1)
 	go func() {
@@ -275,7 +279,8 @@ func (c *Cache) storeResponse(m *MissHandle, response json.RawMessage) error {
 }
 
 // storeStreamResponse writes a completed streaming response (all chunks) to the cache.
-func (c *Cache) storeStreamResponse(m *MissHandle, chunks []json.RawMessage) error {
+// inputTokens and outputTokens are stored as metadata for cost-saving metrics.
+func (c *Cache) storeStreamResponse(m *MissHandle, chunks []json.RawMessage, inputTokens, outputTokens int) error {
 	if len(chunks) == 0 {
 		return fmt.Errorf("no chunks to store")
 	}
@@ -294,6 +299,8 @@ func (c *Cache) storeStreamResponse(m *MissHandle, chunks []json.RawMessage) err
 	meta := buildUnifiedMetadata(m.opts.provider, m.opts.model, m.opts.paramsHash, m.opts.cacheKey, m.opts.ttl)
 	meta["stream_chunks"] = encoded
 	meta["response"] = ""
+	meta["input_tokens"] = inputTokens
+	meta["output_tokens"] = outputTokens
 
 	c.writersWg.Add(1)
 	go func() {
