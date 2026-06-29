@@ -6535,7 +6535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I return a product?"
+              "text": "What's your policy for returning items?"
             }
           }
         ],
@@ -11035,7 +11035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I return a product?"
+              "text": "What's your policy for returning items?"
             }
           }
         ],
@@ -15535,7 +15535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I return a product?"
+              "text": "What's your policy for returning items?"
             }
           }
         ],
@@ -18035,7 +18035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my order?"
+              "text": "What payment methods do you accept?"
             }
           }
         ],
@@ -18085,7 +18085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Why is my order delayed?"
+              "text": "Can I pay in instalments?"
             }
           }
         ],
@@ -18135,7 +18135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I received the wrong item."
+              "text": "How do I apply a promo code?"
             }
           }
         ],
@@ -18185,7 +18185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I modify my order?"
+              "text": "Do you accept cryptocurrency?"
             }
           }
         ],
@@ -18235,7 +18235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I cancel my order?"
+              "text": "Is there a student discount available?"
             }
           }
         ],
@@ -18285,7 +18285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My item arrived damaged."
+              "text": "Do you have a loyalty rewards program?"
             }
           }
         ],
@@ -18335,7 +18335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I received the wrong item."
+              "text": "How do I use a gift card at checkout?"
             }
           }
         ],
@@ -18385,7 +18385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my order?"
+              "text": "Do you offer price matching?"
             }
           }
         ],
@@ -18435,7 +18435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I update my email address?"
+              "text": "Can I get a VAT invoice?"
             }
           }
         ],
@@ -18485,7 +18485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I create an account?"
+              "text": "My credit card was declined at checkout."
             }
           }
         ],
@@ -18535,7 +18535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How long does a refund take?"
+              "text": "The app keeps crashing on my phone."
             }
           }
         ],
@@ -18585,7 +18585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is your return policy?"
+              "text": "Your website seems to be down."
             }
           }
         ],
@@ -18635,7 +18635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I initiate a return?"
+              "text": "I'm not receiving your notification emails."
             }
           }
         ],
@@ -18685,7 +18685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I return an item without a receipt?"
+              "text": "The checkout page keeps freezing."
             }
           }
         ],
@@ -18735,7 +18735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I exchange an item?"
+              "text": "How do I update the mobile app?"
             }
           }
         ],
@@ -18785,7 +18785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I track my return shipment?"
+              "text": "I can't upload a photo to my review."
             }
           }
         ],
@@ -18835,7 +18835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is your return policy?"
+              "text": "The tracking page shows no updates."
             }
           }
         ],
@@ -18885,7 +18885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How long does a refund take?"
+              "text": "A product I want doesn't appear in search."
             }
           }
         ],
@@ -18935,7 +18935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is your return policy?"
+              "text": "Can I use the service on multiple devices?"
             }
           }
         ],
@@ -18985,7 +18985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is the return policy?"
+              "text": "I want to stop receiving promotional emails."
             }
           }
         ],
@@ -19035,7 +19035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How long does shipping take?"
+              "text": "How do I reset my password?"
             }
           }
         ],
@@ -19085,7 +19085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What are your shipping options?"
+              "text": "I want to delete my account permanently."
             }
           }
         ],
@@ -19135,7 +19135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How much does shipping cost?"
+              "text": "How do I enable two-factor authentication?"
             }
           }
         ],
@@ -19185,7 +19185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Do you ship internationally?"
+              "text": "I need to change the credit card on my account."
             }
           }
         ],
@@ -19235,7 +19235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How much does international shipping cost?"
+              "text": "How do I view my past orders?"
             }
           }
         ],
@@ -19285,7 +19285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I cancel my order?"
+              "text": "I'm having trouble signing into my account."
             }
           }
         ],
@@ -19335,7 +19335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I redeliver my package?"
+              "text": "How do I create a new account?"
             }
           }
         ],
@@ -19385,7 +19385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My order hasn't arrived yet."
+              "text": "How do I update my email address?"
             }
           }
         ],
@@ -19435,7 +19435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What are your shipping options?"
+              "text": "How do I add a new saved address to my account?"
             }
           }
         ],
@@ -19485,7 +19485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What are your shipping options?"
+              "text": "Someone accessed my account without my permission."
             }
           }
         ],
@@ -19535,7 +19535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I change my email address?"
+              "text": "Is this product available in my size?"
             }
           }
         ],
@@ -19585,7 +19585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I reset my password?"
+              "text": "When will this item be back in stock?"
             }
           }
         ],
@@ -19635,7 +19635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "Does this product come with a warranty?"
             }
           }
         ],
@@ -19685,7 +19685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I view my order history?"
+              "text": "Is this product eco-friendly?"
             }
           }
         ],
@@ -19735,7 +19735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I remove a saved address?"
+              "text": "How do I care for this product?"
             }
           }
         ],
@@ -19785,7 +19785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I track my current order?"
+              "text": "Does this item come in other colours?"
             }
           }
         ],
@@ -19835,7 +19835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My account was hacked."
+              "text": "Can I see more photos of the product?"
             }
           }
         ],
@@ -19885,7 +19885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I can't log into my account."
+              "text": "Is this product compatible with my device?"
             }
           }
         ],
@@ -19935,7 +19935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I reset my password?"
+              "text": "Do you have a size guide?"
             }
           }
         ],
@@ -19985,7 +19985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I log into my account?"
+              "text": "When will the blue variant be restocked?"
             }
           }
         ],
@@ -20035,7 +20035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I update my payment method?"
+              "text": "How do I cancel my subscription?"
             }
           }
         ],
@@ -20085,7 +20085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Do you accept cryptocurrency?"
+              "text": "How do I upgrade my subscription plan?"
             }
           }
         ],
@@ -20135,7 +20135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I was charged the wrong amount."
+              "text": "When is my next subscription billing date?"
             }
           }
         ],
@@ -20185,7 +20185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My promo code isn't working."
+              "text": "How do I pause my subscription?"
             }
           }
         ],
@@ -20235,7 +20235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I apply a promo code?"
+              "text": "What is included in the premium plan?"
             }
           }
         ],
@@ -20285,7 +20285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I get a VAT receipt?"
+              "text": "Can I share my subscription with family members?"
             }
           }
         ],
@@ -20335,7 +20335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I was charged twice."
+              "text": "What happens to my data when I cancel my subscription?"
             }
           }
         ],
@@ -20385,7 +20385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What payment methods do you accept?"
+              "text": "How do I reactivate my cancelled subscription?"
             }
           }
         ],
@@ -20435,7 +20435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I apply a promo code?"
+              "text": "How do I downgrade to a cheaper plan?"
             }
           }
         ],
@@ -20485,7 +20485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I use a coupon on a sale item?"
+              "text": "How do I get a refund for my subscription charge?"
             }
           }
         ],
@@ -20535,7 +20535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I pause my subscription?"
+              "text": "What are your customer support hours?"
             }
           }
         ],
@@ -20585,7 +20585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I downgrade my plan?"
+              "text": "Do you have a loyalty rewards program?"
             }
           }
         ],
@@ -20635,7 +20635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "How do I leave a product review?"
             }
           }
         ],
@@ -20685,7 +20685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "Do you have a referral program?"
             }
           }
         ],
@@ -20735,7 +20735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "Where can I find your privacy policy?"
             }
           }
         ],
@@ -20785,7 +20785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is included in the basic plan?"
+              "text": "How do I report a problem with a seller?"
             }
           }
         ],
@@ -20835,7 +20835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "Do you offer a student discount?"
             }
           }
         ],
@@ -20885,7 +20885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is included in the premium plan?"
+              "text": "Do you have a physical store?"
             }
           }
         ],
@@ -20935,7 +20935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I close my account?"
+              "text": "How do I use the wishlist feature?"
             }
           }
         ],
@@ -20985,7 +20985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "How do I contact customer support?"
             }
           }
         ],
@@ -21035,7 +21035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "The website is not loading."
+              "text": "What is your return policy?"
             }
           }
         ],
@@ -21085,7 +21085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "The app is not working."
+              "text": "How do I initiate a return?"
             }
           }
         ],
@@ -21135,7 +21135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I unsubscribe from marketing emails?"
+              "text": "How long does a refund take?"
             }
           }
         ],
@@ -21185,7 +21185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I'm not receiving order confirmation emails."
+              "text": "Can I exchange an item for a different one?"
             }
           }
         ],
@@ -21235,7 +21235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My payment was declined."
+              "text": "Do you offer free returns?"
             }
           }
         ],
@@ -21285,7 +21285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I leave a review?"
+              "text": "I want a refund instead of a replacement."
             }
           }
         ],
@@ -21335,7 +21335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Where is my order?"
+              "text": "How do I return a gift?"
             }
           }
         ],
@@ -21385,7 +21385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "When will this item be back in stock?"
+              "text": "What items cannot be returned?"
             }
           }
         ],
@@ -21435,7 +21435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "The app is not working."
+              "text": "Can I return without the original packaging?"
             }
           }
         ],
@@ -21485,7 +21485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I share my subscription?"
+              "text": "I returned my item but haven't received a refund."
             }
           }
         ],
@@ -21535,7 +21535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What sizes do you carry?"
+              "text": "Where is my order?"
             }
           }
         ],
@@ -21585,7 +21585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Is this product discontinued?"
+              "text": "How do I track my shipment?"
             }
           }
         ],
@@ -21635,7 +21635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I make a warranty claim?"
+              "text": "My order hasn't arrived yet."
             }
           }
         ],
@@ -21685,7 +21685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Does this product come with a warranty?"
+              "text": "How do I cancel my order?"
             }
           }
         ],
@@ -21735,7 +21735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Does this product require batteries?"
+              "text": "Can I change my order after placing it?"
             }
           }
         ],
@@ -21785,7 +21785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Is this available in my size?"
+              "text": "I received the wrong item."
             }
           }
         ],
@@ -21835,7 +21835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Is this product vegan?"
+              "text": "My item arrived damaged."
             }
           }
         ],
@@ -21885,7 +21885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Does this product come with a warranty?"
+              "text": "Why is my order delayed?"
             }
           }
         ],
@@ -21935,7 +21935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Does this product come in different colours?"
+              "text": "I never received my order confirmation email."
             }
           }
         ],
@@ -21985,7 +21985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Is this product available in my size?"
+              "text": "Can I place an order without an account?"
             }
           }
         ],
@@ -22035,7 +22035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I contact customer support?"
+              "text": "What are your shipping options?"
             }
           }
         ],
@@ -22085,7 +22085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What are your support hours?"
+              "text": "How long does shipping take?"
             }
           }
         ],
@@ -22135,7 +22135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I earn loyalty points?"
+              "text": "Do you offer free shipping?"
             }
           }
         ],
@@ -22185,7 +22185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I report a fake review?"
+              "text": "How much does shipping cost?"
             }
           }
         ],
@@ -22235,7 +22235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Do you have a loyalty program?"
+              "text": "Do you ship internationally?"
             }
           }
         ],
@@ -22285,7 +22285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I request my data be deleted?"
+              "text": "Can I change my delivery address?"
             }
           }
         ],
@@ -22335,7 +22335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I leave a review?"
+              "text": "What happens if I miss my delivery?"
             }
           }
         ],
@@ -22385,7 +22385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Do you offer military discounts?"
+              "text": "My package says delivered but I didn't receive it."
             }
           }
         ],
@@ -22435,7 +22435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I return an item in store?"
+              "text": "Can I pick up my order in store?"
             }
           }
         ],
@@ -22485,7 +22485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I create a gift list?"
+              "text": "How do I schedule a delivery?"
             }
           }
         ],
@@ -22535,7 +22535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my order?"
+              "text": "What payment methods do you accept?"
             }
           }
         ],
@@ -22585,7 +22585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Why is my order delayed?"
+              "text": "Can I pay in instalments?"
             }
           }
         ],
@@ -22635,7 +22635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I received the wrong item."
+              "text": "How do I apply a promo code?"
             }
           }
         ],
@@ -22685,7 +22685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I modify my order?"
+              "text": "Do you accept cryptocurrency?"
             }
           }
         ],
@@ -22735,7 +22735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I cancel my order?"
+              "text": "Is there a student discount available?"
             }
           }
         ],
@@ -22785,7 +22785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My item arrived damaged."
+              "text": "Do you have a loyalty rewards program?"
             }
           }
         ],
@@ -22835,7 +22835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I received the wrong item."
+              "text": "How do I use a gift card at checkout?"
             }
           }
         ],
@@ -22885,7 +22885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my order?"
+              "text": "Do you offer price matching?"
             }
           }
         ],
@@ -22935,7 +22935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I update my email address?"
+              "text": "Can I get a VAT invoice?"
             }
           }
         ],
@@ -22985,7 +22985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I create an account?"
+              "text": "My credit card was declined at checkout."
             }
           }
         ],
@@ -23035,7 +23035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How long does a refund take?"
+              "text": "The app keeps crashing on my phone."
             }
           }
         ],
@@ -23085,7 +23085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is your return policy?"
+              "text": "Your website seems to be down."
             }
           }
         ],
@@ -23135,7 +23135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I initiate a return?"
+              "text": "I'm not receiving your notification emails."
             }
           }
         ],
@@ -23185,7 +23185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I return an item without a receipt?"
+              "text": "The checkout page keeps freezing."
             }
           }
         ],
@@ -23235,7 +23235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I exchange an item?"
+              "text": "How do I update the mobile app?"
             }
           }
         ],
@@ -23285,7 +23285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I track my return shipment?"
+              "text": "I can't upload a photo to my review."
             }
           }
         ],
@@ -23335,7 +23335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is your return policy?"
+              "text": "The tracking page shows no updates."
             }
           }
         ],
@@ -23385,7 +23385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How long does a refund take?"
+              "text": "A product I want doesn't appear in search."
             }
           }
         ],
@@ -23435,7 +23435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is your return policy?"
+              "text": "Can I use the service on multiple devices?"
             }
           }
         ],
@@ -23485,7 +23485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is the return policy?"
+              "text": "I want to stop receiving promotional emails."
             }
           }
         ],
@@ -23535,7 +23535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How long does shipping take?"
+              "text": "How do I reset my password?"
             }
           }
         ],
@@ -23585,7 +23585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What are your shipping options?"
+              "text": "I want to delete my account permanently."
             }
           }
         ],
@@ -23635,7 +23635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How much does shipping cost?"
+              "text": "How do I enable two-factor authentication?"
             }
           }
         ],
@@ -23685,7 +23685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Do you ship internationally?"
+              "text": "I need to change the credit card on my account."
             }
           }
         ],
@@ -23735,7 +23735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How much does international shipping cost?"
+              "text": "How do I view my past orders?"
             }
           }
         ],
@@ -23785,7 +23785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I cancel my order?"
+              "text": "I'm having trouble signing into my account."
             }
           }
         ],
@@ -23835,7 +23835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I redeliver my package?"
+              "text": "How do I create a new account?"
             }
           }
         ],
@@ -23885,7 +23885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My order hasn't arrived yet."
+              "text": "How do I update my email address?"
             }
           }
         ],
@@ -23935,7 +23935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What are your shipping options?"
+              "text": "How do I add a new saved address to my account?"
             }
           }
         ],
@@ -23985,7 +23985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What are your shipping options?"
+              "text": "Someone accessed my account without my permission."
             }
           }
         ],
@@ -24035,7 +24035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I change my email address?"
+              "text": "Is this product available in my size?"
             }
           }
         ],
@@ -24085,7 +24085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I reset my password?"
+              "text": "When will this item be back in stock?"
             }
           }
         ],
@@ -24135,7 +24135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "Does this product come with a warranty?"
             }
           }
         ],
@@ -24185,7 +24185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I view my order history?"
+              "text": "Is this product eco-friendly?"
             }
           }
         ],
@@ -24235,7 +24235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I remove a saved address?"
+              "text": "How do I care for this product?"
             }
           }
         ],
@@ -24285,7 +24285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I track my current order?"
+              "text": "Does this item come in other colours?"
             }
           }
         ],
@@ -24335,7 +24335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My account was hacked."
+              "text": "Can I see more photos of the product?"
             }
           }
         ],
@@ -24385,7 +24385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I can't log into my account."
+              "text": "Is this product compatible with my device?"
             }
           }
         ],
@@ -24435,7 +24435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I reset my password?"
+              "text": "Do you have a size guide?"
             }
           }
         ],
@@ -24485,7 +24485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I log into my account?"
+              "text": "When will the blue variant be restocked?"
             }
           }
         ],
@@ -24535,7 +24535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I update my payment method?"
+              "text": "How do I cancel my subscription?"
             }
           }
         ],
@@ -24585,7 +24585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Do you accept cryptocurrency?"
+              "text": "How do I upgrade my subscription plan?"
             }
           }
         ],
@@ -24635,7 +24635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I was charged the wrong amount."
+              "text": "When is my next subscription billing date?"
             }
           }
         ],
@@ -24685,7 +24685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My promo code isn't working."
+              "text": "How do I pause my subscription?"
             }
           }
         ],
@@ -24735,7 +24735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I apply a promo code?"
+              "text": "What is included in the premium plan?"
             }
           }
         ],
@@ -24785,7 +24785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I get a VAT receipt?"
+              "text": "Can I share my subscription with family members?"
             }
           }
         ],
@@ -24835,7 +24835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I was charged twice."
+              "text": "What happens to my data when I cancel my subscription?"
             }
           }
         ],
@@ -24885,7 +24885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What payment methods do you accept?"
+              "text": "How do I reactivate my cancelled subscription?"
             }
           }
         ],
@@ -24935,7 +24935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I apply a promo code?"
+              "text": "How do I downgrade to a cheaper plan?"
             }
           }
         ],
@@ -24985,7 +24985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I use a coupon on a sale item?"
+              "text": "How do I get a refund for my subscription charge?"
             }
           }
         ],
@@ -25035,7 +25035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I pause my subscription?"
+              "text": "What are your customer support hours?"
             }
           }
         ],
@@ -25085,7 +25085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I downgrade my plan?"
+              "text": "Do you have a loyalty rewards program?"
             }
           }
         ],
@@ -25135,7 +25135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "How do I leave a product review?"
             }
           }
         ],
@@ -25185,7 +25185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "Do you have a referral program?"
             }
           }
         ],
@@ -25235,7 +25235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "Where can I find your privacy policy?"
             }
           }
         ],
@@ -25285,7 +25285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is included in the basic plan?"
+              "text": "How do I report a problem with a seller?"
             }
           }
         ],
@@ -25335,7 +25335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "Do you offer a student discount?"
             }
           }
         ],
@@ -25385,7 +25385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What is included in the premium plan?"
+              "text": "Do you have a physical store?"
             }
           }
         ],
@@ -25435,7 +25435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I close my account?"
+              "text": "How do I use the wishlist feature?"
             }
           }
         ],
@@ -25485,7 +25485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I cancel my subscription?"
+              "text": "How do I contact customer support?"
             }
           }
         ],
@@ -25535,7 +25535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "The website is not loading."
+              "text": "What is your return policy?"
             }
           }
         ],
@@ -25585,7 +25585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "The app is not working."
+              "text": "How do I initiate a return?"
             }
           }
         ],
@@ -25635,7 +25635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I unsubscribe from marketing emails?"
+              "text": "How long does a refund take?"
             }
           }
         ],
@@ -25685,7 +25685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "I'm not receiving order confirmation emails."
+              "text": "Can I exchange an item for a different one?"
             }
           }
         ],
@@ -25735,7 +25735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "My payment was declined."
+              "text": "Do you offer free returns?"
             }
           }
         ],
@@ -25785,7 +25785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I leave a review?"
+              "text": "I want a refund instead of a replacement."
             }
           }
         ],
@@ -25835,7 +25835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Where is my order?"
+              "text": "How do I return a gift?"
             }
           }
         ],
@@ -25885,7 +25885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "When will this item be back in stock?"
+              "text": "What items cannot be returned?"
             }
           }
         ],
@@ -25935,7 +25935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "The app is not working."
+              "text": "Can I return without the original packaging?"
             }
           }
         ],
@@ -25985,7 +25985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I share my subscription?"
+              "text": "I returned my item but haven't received a refund."
             }
           }
         ],
@@ -26035,7 +26035,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What sizes do you carry?"
+              "text": "Where is my order?"
             }
           }
         ],
@@ -26085,7 +26085,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Is this product discontinued?"
+              "text": "How do I track my shipment?"
             }
           }
         ],
@@ -26135,7 +26135,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I make a warranty claim?"
+              "text": "My order hasn't arrived yet."
             }
           }
         ],
@@ -26185,7 +26185,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Does this product come with a warranty?"
+              "text": "How do I cancel my order?"
             }
           }
         ],
@@ -26235,7 +26235,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Does this product require batteries?"
+              "text": "Can I change my order after placing it?"
             }
           }
         ],
@@ -26285,7 +26285,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Is this available in my size?"
+              "text": "I received the wrong item."
             }
           }
         ],
@@ -26335,7 +26335,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Is this product vegan?"
+              "text": "My item arrived damaged."
             }
           }
         ],
@@ -26385,7 +26385,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Does this product come with a warranty?"
+              "text": "Why is my order delayed?"
             }
           }
         ],
@@ -26435,7 +26435,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Does this product come in different colours?"
+              "text": "I never received my order confirmation email."
             }
           }
         ],
@@ -26485,7 +26485,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Is this product available in my size?"
+              "text": "Can I place an order without an account?"
             }
           }
         ],
@@ -26535,7 +26535,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I contact customer support?"
+              "text": "What are your shipping options?"
             }
           }
         ],
@@ -26585,7 +26585,7 @@
           {
             "role": "user",
             "content": {
-              "text": "What are your support hours?"
+              "text": "How long does shipping take?"
             }
           }
         ],
@@ -26635,7 +26635,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I earn loyalty points?"
+              "text": "Do you offer free shipping?"
             }
           }
         ],
@@ -26685,7 +26685,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I report a fake review?"
+              "text": "How much does shipping cost?"
             }
           }
         ],
@@ -26735,7 +26735,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Do you have a loyalty program?"
+              "text": "Do you ship internationally?"
             }
           }
         ],
@@ -26785,7 +26785,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I request my data be deleted?"
+              "text": "Can I change my delivery address?"
             }
           }
         ],
@@ -26835,7 +26835,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I leave a review?"
+              "text": "What happens if I miss my delivery?"
             }
           }
         ],
@@ -26885,7 +26885,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Do you offer military discounts?"
+              "text": "My package says delivered but I didn't receive it."
             }
           }
         ],
@@ -26935,7 +26935,7 @@
           {
             "role": "user",
             "content": {
-              "text": "Can I return an item in store?"
+              "text": "Can I pick up my order in store?"
             }
           }
         ],
@@ -26985,7 +26985,7 @@
           {
             "role": "user",
             "content": {
-              "text": "How do I create a gift list?"
+              "text": "How do I schedule a delivery?"
             }
           }
         ],

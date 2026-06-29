@@ -1,4 +1,15 @@
 services:
+  eval:
+    build: .
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: "6334"
+    volumes:
+      - ./output:/app/output
+    depends_on:
+      - qdrant
+
   qdrant:
     image: qdrant/qdrant:latest
     ports:
@@ -16,9 +27,6 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.retention.time=1d"
-    # lets Prometheus reach the eval test running on the host at :2112
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     depends_on:
       - qdrant
 

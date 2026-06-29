@@ -1,0 +1,1418 @@
+=== RUN   TestSemanticCacheEval
+    eval_test.go:150: metrics server: http://localhost:2112/metrics
+    eval_test.go:164: loaded 1000 test cases
+    eval_test.go:197: namespace: eval-fd17073a
+    eval_test.go:227: phase 1: storing seed entries …
+    eval_test.go:245: phase 1: done
+    eval_test.go:248: phase 2: running queries …
+    eval_test.go:310: PASS [tc-0001] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0002] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0003] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0004] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0005] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0006] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0007] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0008] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0009] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0010] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0011] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0012] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0013] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0014] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0015] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0016] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0017] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0018] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0019] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0020] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0021] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0022] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0023] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0024] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0025] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0026] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0027] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0028] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0029] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0030] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0031] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0032] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0033] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0034] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0035] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0036] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0037] direct_hit             got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0038] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0039] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0040] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0041] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0042] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0043] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0044] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0045] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0046] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0047] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0048] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0049] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0050] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0051] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0052] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0053] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0054] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0055] direct_hit             expected=direct_hit    got=semantic_hit  sim=0.8404
+               Same customer query asked again — must always be a direct hit.
+    eval_test.go:310: PASS [tc-0056] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0057] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0058] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0059] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0060] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0061] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0062] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0063] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0064] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0065] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0066] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0067] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0068] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0069] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0070] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0071] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0072] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0073] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0074] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0075] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0076] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0077] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0078] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0079] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0080] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0081] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0082] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0083] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0084] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0085] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0086] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0087] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0088] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0089] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0090] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0091] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0092] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0093] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0094] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0095] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0096] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0097] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0098] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0099] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0100] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0101] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0102] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0103] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0104] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0105] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0106] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0107] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0108] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0109] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0110] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0111] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0112] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0113] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0114] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0115] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0116] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0117] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0118] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0119] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0120] direct_hit             got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0121] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0122] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0123] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0124] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0125] semantic_hit           got=semantic_hit  latency=544ms sim=0.8694
+    eval_test.go:303: FAIL [tc-0126] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0127] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0128] semantic_hit           got=semantic_hit  latency=545ms sim=0.8508
+    eval_test.go:310: PASS [tc-0129] semantic_hit           got=semantic_hit  latency=444ms sim=0.8639
+    eval_test.go:303: FAIL [tc-0130] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0131] semantic_hit           got=semantic_hit  latency=563ms sim=0.8477
+    eval_test.go:310: PASS [tc-0132] semantic_hit           got=semantic_hit  latency=531ms sim=0.8745
+    eval_test.go:303: FAIL [tc-0133] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0134] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0135] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0136] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0137] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0138] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0139] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0140] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0141] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0142] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0143] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0144] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0145] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0146] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0147] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0148] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0149] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0150] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0151] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0152] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0153] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0154] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0155] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0156] semantic_hit           got=semantic_hit  latency=544ms sim=0.8665
+    eval_test.go:310: PASS [tc-0157] semantic_hit           got=semantic_hit  latency=539ms sim=0.8953
+    eval_test.go:303: FAIL [tc-0158] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0159] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0160] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0161] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0162] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0163] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0164] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0165] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0166] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0167] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0168] semantic_hit           got=semantic_hit  latency=564ms sim=0.8558
+    eval_test.go:310: PASS [tc-0169] semantic_hit           got=semantic_hit  latency=664ms sim=0.8645
+    eval_test.go:303: FAIL [tc-0170] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0171] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0172] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0173] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0174] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0175] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0176] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0177] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0178] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0179] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0180] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0181] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0182] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0183] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0184] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0185] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0186] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0187] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0188] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0189] semantic_hit           got=semantic_hit  latency=541ms sim=0.8752
+    eval_test.go:303: FAIL [tc-0190] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0191] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0192] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0193] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0194] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0195] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0196] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0197] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0198] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0199] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0200] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0201] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0202] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0203] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0204] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0205] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0206] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0207] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0208] semantic_hit           got=semantic_hit  latency=635ms sim=0.8547
+    eval_test.go:303: FAIL [tc-0209] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0210] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0211] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0212] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0213] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0214] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0215] semantic_hit           got=semantic_hit  latency=508ms sim=0.8694
+    eval_test.go:303: FAIL [tc-0216] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0217] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0218] semantic_hit           got=semantic_hit  latency=546ms sim=0.8508
+    eval_test.go:310: PASS [tc-0219] semantic_hit           got=semantic_hit  latency=568ms sim=0.8639
+    eval_test.go:303: FAIL [tc-0220] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0221] semantic_hit           got=semantic_hit  latency=357ms sim=0.8477
+    eval_test.go:310: PASS [tc-0222] semantic_hit           got=semantic_hit  latency=524ms sim=0.8745
+    eval_test.go:303: FAIL [tc-0223] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0224] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0225] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0226] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0227] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0228] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0229] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0230] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0231] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0232] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0233] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0234] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0235] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0236] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0237] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0238] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0239] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0240] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0241] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0242] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0243] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0244] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0245] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0246] semantic_hit           got=semantic_hit  latency=723ms sim=0.8665
+    eval_test.go:310: PASS [tc-0247] semantic_hit           got=semantic_hit  latency=642ms sim=0.8953
+    eval_test.go:303: FAIL [tc-0248] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0249] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0250] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0251] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0252] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0253] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0254] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0255] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0256] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0257] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0258] semantic_hit           got=semantic_hit  latency=540ms sim=0.8558
+    eval_test.go:310: PASS [tc-0259] semantic_hit           got=semantic_hit  latency=526ms sim=0.8645
+    eval_test.go:303: FAIL [tc-0260] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0261] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0262] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0263] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0264] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0265] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0266] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0267] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0268] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0269] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0270] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0271] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0272] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0273] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0274] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0275] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0276] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0277] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0278] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0279] semantic_hit           got=semantic_hit  latency=389ms sim=0.8752
+    eval_test.go:303: FAIL [tc-0280] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0281] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0282] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0283] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0284] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0285] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0286] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0287] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0288] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0289] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0290] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0291] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0292] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0293] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0294] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0295] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0296] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0297] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0298] semantic_hit           got=semantic_hit  latency=537ms sim=0.8547
+    eval_test.go:303: FAIL [tc-0299] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0300] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0301] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0302] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0303] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0304] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0305] semantic_hit           got=semantic_hit  latency=539ms sim=0.8694
+    eval_test.go:303: FAIL [tc-0306] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0307] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0308] semantic_hit           got=semantic_hit  latency=524ms sim=0.8508
+    eval_test.go:310: PASS [tc-0309] semantic_hit           got=semantic_hit  latency=602ms sim=0.8639
+    eval_test.go:303: FAIL [tc-0310] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0311] semantic_hit           got=semantic_hit  latency=522ms sim=0.8477
+    eval_test.go:310: PASS [tc-0312] semantic_hit           got=semantic_hit  latency=569ms sim=0.8745
+    eval_test.go:303: FAIL [tc-0313] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0314] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0315] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0316] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0317] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0318] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0319] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0320] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0321] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0322] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0323] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0324] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0325] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0326] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0327] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0328] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0329] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0330] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0331] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0332] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0333] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0334] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0335] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0336] semantic_hit           got=semantic_hit  latency=1009ms sim=0.8665
+    eval_test.go:310: PASS [tc-0337] semantic_hit           got=semantic_hit  latency=675ms sim=0.8953
+    eval_test.go:303: FAIL [tc-0338] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0339] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0340] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0341] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0342] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0343] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0344] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0345] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0346] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0347] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:310: PASS [tc-0348] semantic_hit           got=semantic_hit  latency=530ms sim=0.8558
+    eval_test.go:310: PASS [tc-0349] semantic_hit           got=semantic_hit  latency=567ms sim=0.8645
+    eval_test.go:303: FAIL [tc-0350] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0351] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0352] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0353] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0354] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0355] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0356] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0357] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0358] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0359] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0360] semantic_hit           expected=semantic_hit  got=miss          sim=n/a
+               Same intent rephrased — should exceed similarity threshold.
+    eval_test.go:303: FAIL [tc-0361] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0362] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0363] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0364] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0365] semantic_miss          expected=miss          got=semantic_hit  sim=0.8505
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0366] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0367] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0368] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0369] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0370] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0371] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0372] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0373] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0374] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0375] semantic_miss          expected=miss          got=semantic_hit  sim=0.9185
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0376] semantic_miss          expected=miss          got=semantic_hit  sim=0.8893
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0377] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0378] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0379] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0380] semantic_miss          expected=miss          got=semantic_hit  sim=0.9701
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0381] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0382] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0383] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0384] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0385] semantic_miss          expected=miss          got=semantic_hit  sim=0.8524
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0386] semantic_miss          expected=miss          got=semantic_hit  sim=0.8505
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0387] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0388] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0389] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0390] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0391] semantic_miss          expected=miss          got=semantic_hit  sim=0.9304
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0392] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0393] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0394] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0395] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0396] semantic_miss          expected=miss          got=semantic_hit  sim=0.8678
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0397] semantic_miss          expected=miss          got=semantic_hit  sim=0.9798
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0398] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0399] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0400] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0401] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0402] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0403] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0404] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0405] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0406] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0407] semantic_miss          expected=miss          got=semantic_hit  sim=0.8965
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0408] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0409] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0410] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0411] semantic_miss          expected=miss          got=semantic_hit  sim=0.8404
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0412] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0413] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0414] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0415] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0416] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0417] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0418] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0419] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0420] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0421] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0422] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0423] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0424] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0425] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0426] semantic_miss          expected=miss          got=semantic_hit  sim=0.9108
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0427] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0428] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0429] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0430] semantic_miss          expected=miss          got=semantic_hit  sim=0.8786
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0431] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0432] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0433] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0434] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0435] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0436] semantic_miss          expected=miss          got=semantic_hit  sim=0.9233
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0437] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0438] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0439] semantic_miss          expected=miss          got=semantic_hit  sim=0.8505
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0440] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0441] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0442] semantic_miss          expected=miss          got=semantic_hit  sim=0.9388
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0443] semantic_miss          expected=miss          got=semantic_hit  sim=0.8507
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0444] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0445] semantic_miss          expected=miss          got=semantic_hit  sim=0.9662
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0446] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0447] semantic_miss          expected=miss          got=semantic_hit  sim=0.9108
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0448] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0449] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0450] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0451] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0452] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0453] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0454] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0455] semantic_miss          expected=miss          got=semantic_hit  sim=0.8505
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0456] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0457] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0458] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0459] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0460] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0461] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0462] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0463] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0464] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0465] semantic_miss          expected=miss          got=semantic_hit  sim=0.9185
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0466] semantic_miss          expected=miss          got=semantic_hit  sim=0.8893
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0467] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0468] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0469] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0470] semantic_miss          expected=miss          got=semantic_hit  sim=0.9701
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0471] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0472] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0473] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0474] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0475] semantic_miss          expected=miss          got=semantic_hit  sim=0.8524
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0476] semantic_miss          expected=miss          got=semantic_hit  sim=0.8505
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0477] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0478] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0479] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0480] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0481] semantic_miss          expected=miss          got=semantic_hit  sim=0.9287
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0482] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0483] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0484] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0485] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0486] semantic_miss          expected=miss          got=semantic_hit  sim=0.8677
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0487] semantic_miss          expected=miss          got=semantic_hit  sim=0.9798
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0488] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0489] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0490] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0491] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0492] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0493] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0494] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0495] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0496] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0497] semantic_miss          expected=miss          got=semantic_hit  sim=0.8965
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0498] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0499] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0500] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0501] semantic_miss          expected=miss          got=semantic_hit  sim=0.8404
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0502] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0503] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0504] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0505] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0506] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0507] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0508] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0509] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0510] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0511] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0512] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0513] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0514] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0515] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0516] semantic_miss          expected=miss          got=semantic_hit  sim=0.9108
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0517] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0518] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0519] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0520] semantic_miss          expected=miss          got=semantic_hit  sim=0.8786
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0521] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0522] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0523] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0524] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0525] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0526] semantic_miss          expected=miss          got=semantic_hit  sim=0.9233
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0527] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0528] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0529] semantic_miss          expected=miss          got=semantic_hit  sim=0.8505
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0530] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0531] semantic_miss          expected=miss          got=direct_hit    sim=n/a
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0532] semantic_miss          expected=miss          got=semantic_hit  sim=0.9388
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:303: FAIL [tc-0533] semantic_miss          expected=miss          got=semantic_hit  sim=0.8506
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0534] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0535] semantic_miss          expected=miss          got=semantic_hit  sim=0.9662
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0536] semantic_miss          got=miss          latency=0ms
+    eval_test.go:303: FAIL [tc-0537] semantic_miss          expected=miss          got=semantic_hit  sim=0.9108
+               Different customer issue — serving the cached answer would be incorrect.
+    eval_test.go:310: PASS [tc-0538] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0539] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0540] semantic_miss          got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0541] multiturn_hit          got=semantic_hit  latency=582ms sim=0.9203
+    eval_test.go:310: PASS [tc-0542] multiturn_hit          got=semantic_hit  latency=1133ms sim=0.9554
+    eval_test.go:310: PASS [tc-0543] multiturn_hit          got=semantic_hit  latency=552ms sim=0.8859
+    eval_test.go:310: PASS [tc-0544] multiturn_hit          got=semantic_hit  latency=767ms sim=0.9311
+    eval_test.go:310: PASS [tc-0545] multiturn_hit          got=semantic_hit  latency=570ms sim=0.9224
+    eval_test.go:310: PASS [tc-0546] multiturn_hit          got=semantic_hit  latency=548ms sim=0.9193
+    eval_test.go:310: PASS [tc-0547] multiturn_hit          got=semantic_hit  latency=573ms sim=0.9739
+    eval_test.go:310: PASS [tc-0548] multiturn_hit          got=semantic_hit  latency=557ms sim=0.9551
+    eval_test.go:310: PASS [tc-0549] multiturn_hit          got=semantic_hit  latency=412ms sim=0.9428
+    eval_test.go:310: PASS [tc-0550] multiturn_hit          got=semantic_hit  latency=548ms sim=0.9453
+    eval_test.go:310: PASS [tc-0551] multiturn_hit          got=semantic_hit  latency=537ms sim=0.9476
+    eval_test.go:310: PASS [tc-0552] multiturn_hit          got=semantic_hit  latency=541ms sim=0.9201
+    eval_test.go:310: PASS [tc-0553] multiturn_hit          got=semantic_hit  latency=551ms sim=0.9034
+    eval_test.go:310: PASS [tc-0554] multiturn_hit          got=semantic_hit  latency=515ms sim=0.9644
+    eval_test.go:310: PASS [tc-0555] multiturn_hit          got=semantic_hit  latency=538ms sim=0.9702
+    eval_test.go:310: PASS [tc-0556] multiturn_hit          got=semantic_hit  latency=449ms sim=0.9204
+    eval_test.go:310: PASS [tc-0557] multiturn_hit          got=semantic_hit  latency=519ms sim=0.9554
+    eval_test.go:310: PASS [tc-0558] multiturn_hit          got=semantic_hit  latency=989ms sim=0.8859
+    eval_test.go:310: PASS [tc-0559] multiturn_hit          got=semantic_hit  latency=544ms sim=0.9311
+    eval_test.go:310: PASS [tc-0560] multiturn_hit          got=semantic_hit  latency=538ms sim=0.9224
+    eval_test.go:310: PASS [tc-0561] multiturn_hit          got=semantic_hit  latency=532ms sim=0.9193
+    eval_test.go:310: PASS [tc-0562] multiturn_hit          got=semantic_hit  latency=532ms sim=0.9739
+    eval_test.go:310: PASS [tc-0563] multiturn_hit          got=semantic_hit  latency=667ms sim=0.9551
+    eval_test.go:310: PASS [tc-0564] multiturn_hit          got=semantic_hit  latency=624ms sim=0.9428
+    eval_test.go:310: PASS [tc-0565] multiturn_hit          got=semantic_hit  latency=576ms sim=0.9453
+    eval_test.go:310: PASS [tc-0566] multiturn_hit          got=semantic_hit  latency=990ms sim=0.9476
+    eval_test.go:310: PASS [tc-0567] multiturn_hit          got=semantic_hit  latency=650ms sim=0.9201
+    eval_test.go:310: PASS [tc-0568] multiturn_hit          got=semantic_hit  latency=401ms sim=0.9034
+    eval_test.go:310: PASS [tc-0569] multiturn_hit          got=semantic_hit  latency=545ms sim=0.9644
+    eval_test.go:310: PASS [tc-0570] multiturn_hit          got=semantic_hit  latency=519ms sim=0.9702
+    eval_test.go:310: PASS [tc-0571] multiturn_hit          got=semantic_hit  latency=558ms sim=0.9204
+    eval_test.go:310: PASS [tc-0572] multiturn_hit          got=semantic_hit  latency=526ms sim=0.9554
+    eval_test.go:310: PASS [tc-0573] multiturn_hit          got=semantic_hit  latency=629ms sim=0.8859
+    eval_test.go:310: PASS [tc-0574] multiturn_hit          got=semantic_hit  latency=565ms sim=0.9311
+    eval_test.go:310: PASS [tc-0575] multiturn_hit          got=semantic_hit  latency=770ms sim=0.9224
+    eval_test.go:310: PASS [tc-0576] multiturn_hit          got=semantic_hit  latency=516ms sim=0.9193
+    eval_test.go:310: PASS [tc-0577] multiturn_hit          got=semantic_hit  latency=532ms sim=0.9739
+    eval_test.go:310: PASS [tc-0578] multiturn_hit          got=semantic_hit  latency=607ms sim=0.9551
+    eval_test.go:310: PASS [tc-0579] multiturn_hit          got=semantic_hit  latency=685ms sim=0.9428
+    eval_test.go:310: PASS [tc-0580] multiturn_hit          got=semantic_hit  latency=529ms sim=0.9453
+    eval_test.go:310: PASS [tc-0581] multiturn_hit          got=semantic_hit  latency=515ms sim=0.9476
+    eval_test.go:310: PASS [tc-0582] multiturn_hit          got=semantic_hit  latency=531ms sim=0.9201
+    eval_test.go:310: PASS [tc-0583] multiturn_hit          got=semantic_hit  latency=525ms sim=0.9034
+    eval_test.go:310: PASS [tc-0584] multiturn_hit          got=semantic_hit  latency=446ms sim=0.9644
+    eval_test.go:310: PASS [tc-0585] multiturn_hit          got=semantic_hit  latency=467ms sim=0.9702
+    eval_test.go:310: PASS [tc-0586] multiturn_hit          got=semantic_hit  latency=722ms sim=0.9204
+    eval_test.go:310: PASS [tc-0587] multiturn_hit          got=semantic_hit  latency=640ms sim=0.9555
+    eval_test.go:310: PASS [tc-0588] multiturn_hit          got=semantic_hit  latency=558ms sim=0.8859
+    eval_test.go:310: PASS [tc-0589] multiturn_hit          got=semantic_hit  latency=511ms sim=0.9311
+    eval_test.go:310: PASS [tc-0590] multiturn_hit          got=semantic_hit  latency=735ms sim=0.9224
+    eval_test.go:310: PASS [tc-0591] multiturn_hit          got=semantic_hit  latency=628ms sim=0.9193
+    eval_test.go:310: PASS [tc-0592] multiturn_hit          got=semantic_hit  latency=534ms sim=0.9739
+    eval_test.go:310: PASS [tc-0593] multiturn_hit          got=semantic_hit  latency=696ms sim=0.9551
+    eval_test.go:310: PASS [tc-0594] multiturn_hit          got=semantic_hit  latency=523ms sim=0.9428
+    eval_test.go:310: PASS [tc-0595] multiturn_hit          got=semantic_hit  latency=522ms sim=0.9453
+    eval_test.go:310: PASS [tc-0596] multiturn_hit          got=semantic_hit  latency=589ms sim=0.9476
+    eval_test.go:310: PASS [tc-0597] multiturn_hit          got=semantic_hit  latency=548ms sim=0.9201
+    eval_test.go:310: PASS [tc-0598] multiturn_hit          got=semantic_hit  latency=541ms sim=0.9034
+    eval_test.go:310: PASS [tc-0599] multiturn_hit          got=semantic_hit  latency=501ms sim=0.9644
+    eval_test.go:310: PASS [tc-0600] multiturn_hit          got=semantic_hit  latency=408ms sim=0.9702
+    eval_test.go:310: PASS [tc-0601] multiturn_hit          got=semantic_hit  latency=570ms sim=0.9204
+    eval_test.go:310: PASS [tc-0602] multiturn_hit          got=semantic_hit  latency=409ms sim=0.9554
+    eval_test.go:310: PASS [tc-0603] multiturn_hit          got=semantic_hit  latency=503ms sim=0.8859
+    eval_test.go:310: PASS [tc-0604] multiturn_hit          got=semantic_hit  latency=657ms sim=0.9311
+    eval_test.go:310: PASS [tc-0605] multiturn_hit          got=semantic_hit  latency=562ms sim=0.9224
+    eval_test.go:310: PASS [tc-0606] multiturn_hit          got=semantic_hit  latency=559ms sim=0.9193
+    eval_test.go:310: PASS [tc-0607] multiturn_hit          got=semantic_hit  latency=450ms sim=0.9739
+    eval_test.go:310: PASS [tc-0608] multiturn_hit          got=semantic_hit  latency=542ms sim=0.9551
+    eval_test.go:310: PASS [tc-0609] multiturn_hit          got=semantic_hit  latency=543ms sim=0.9428
+    eval_test.go:310: PASS [tc-0610] multiturn_hit          got=semantic_hit  latency=471ms sim=0.9453
+    eval_test.go:310: PASS [tc-0611] multiturn_hit          got=semantic_hit  latency=656ms sim=0.9476
+    eval_test.go:310: PASS [tc-0612] multiturn_hit          got=semantic_hit  latency=412ms sim=0.9201
+    eval_test.go:310: PASS [tc-0613] multiturn_hit          got=semantic_hit  latency=533ms sim=0.9034
+    eval_test.go:310: PASS [tc-0614] multiturn_hit          got=semantic_hit  latency=774ms sim=0.9644
+    eval_test.go:310: PASS [tc-0615] multiturn_hit          got=semantic_hit  latency=572ms sim=0.9702
+    eval_test.go:310: PASS [tc-0616] multiturn_hit          got=semantic_hit  latency=549ms sim=0.9204
+    eval_test.go:310: PASS [tc-0617] multiturn_hit          got=semantic_hit  latency=539ms sim=0.9555
+    eval_test.go:310: PASS [tc-0618] multiturn_hit          got=semantic_hit  latency=677ms sim=0.8859
+    eval_test.go:310: PASS [tc-0619] multiturn_hit          got=semantic_hit  latency=520ms sim=0.9311
+    eval_test.go:310: PASS [tc-0620] multiturn_hit          got=semantic_hit  latency=830ms sim=0.9224
+    eval_test.go:310: PASS [tc-0621] multiturn_hit          got=semantic_hit  latency=566ms sim=0.9193
+    eval_test.go:310: PASS [tc-0622] multiturn_hit          got=semantic_hit  latency=834ms sim=0.9739
+    eval_test.go:310: PASS [tc-0623] multiturn_hit          got=semantic_hit  latency=353ms sim=0.9551
+    eval_test.go:310: PASS [tc-0624] multiturn_hit          got=semantic_hit  latency=352ms sim=0.9428
+    eval_test.go:310: PASS [tc-0625] multiturn_hit          got=semantic_hit  latency=450ms sim=0.9453
+    eval_test.go:310: PASS [tc-0626] multiturn_hit          got=semantic_hit  latency=650ms sim=0.9476
+    eval_test.go:310: PASS [tc-0627] multiturn_hit          got=semantic_hit  latency=557ms sim=0.9201
+    eval_test.go:310: PASS [tc-0628] multiturn_hit          got=semantic_hit  latency=533ms sim=0.9034
+    eval_test.go:310: PASS [tc-0629] multiturn_hit          got=semantic_hit  latency=558ms sim=0.9644
+    eval_test.go:310: PASS [tc-0630] multiturn_hit          got=semantic_hit  latency=526ms sim=0.9702
+    eval_test.go:310: PASS [tc-0631] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0632] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0633] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0634] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0635] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0636] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0637] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0638] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0639] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0640] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0641] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0642] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0643] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0644] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0645] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0646] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0647] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0648] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0649] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0650] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0651] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0652] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0653] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0654] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0655] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0656] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0657] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0658] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0659] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0660] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0661] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0662] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0663] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0664] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0665] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0666] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0667] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0668] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0669] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0670] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0671] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0672] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0673] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0674] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0675] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0676] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0677] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0678] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0679] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0680] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0681] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0682] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0683] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0684] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0685] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0686] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0687] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0688] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0689] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0690] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0691] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0692] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0693] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0694] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0695] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0696] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0697] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0698] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0699] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0700] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0701] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0702] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0703] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0704] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0705] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0706] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0707] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0708] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0709] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0710] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0711] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0712] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0713] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0714] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0715] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0716] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0717] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0718] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0719] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0720] multiturn_miss         got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0721] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0722] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0723] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0724] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0725] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0726] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0727] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0728] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0729] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0730] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0731] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0732] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0733] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0734] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0735] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0736] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0737] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0738] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0739] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0740] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0741] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0742] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0743] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0744] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0745] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0746] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0747] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0748] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0749] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0750] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0751] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0752] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0753] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0754] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0755] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0756] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0757] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0758] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0759] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0760] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0761] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0762] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0763] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0764] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0765] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0766] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0767] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0768] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0769] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0770] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0771] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0772] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0773] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0774] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0775] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0776] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0777] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0778] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0779] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0780] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0781] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0782] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0783] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0784] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0785] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0786] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0787] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0788] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0789] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0790] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0791] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0792] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0793] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0794] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0795] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0796] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0797] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0798] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0799] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0800] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0801] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0802] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0803] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0804] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0805] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0806] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0807] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0808] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0809] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0810] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0811] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0812] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0813] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0814] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0815] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0816] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0817] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0818] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0819] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0820] param_isolation        got=miss          latency=0ms
+    eval_test.go:310: PASS [tc-0821] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0822] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0823] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0824] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0825] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0826] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0827] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0828] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0829] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0830] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8883
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0831] edge_case              got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0832] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0833] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8867
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0834] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8978
+               normalizeText() handles punctuation — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0835] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0836] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9348
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0837] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0838] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0839] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8403
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0840] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0841] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0842] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0843] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9469
+               normalizeText() handles caps — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0844] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8409
+               normalizeText() handles caps — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0845] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8537
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0846] edge_case              got=direct_hit    latency=1ms
+    eval_test.go:303: FAIL [tc-0847] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9453
+               normalizeText() handles punctuation — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0848] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0849] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0850] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0851] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0852] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0853] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0854] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0855] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0856] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0857] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0858] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0859] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0860] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8883
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0861] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0862] edge_case              got=direct_hit    latency=1ms
+    eval_test.go:303: FAIL [tc-0863] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8867
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0864] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8978
+               normalizeText() handles punctuation — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0865] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0866] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9348
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0867] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0868] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0869] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8403
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0870] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0871] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0872] edge_case              got=direct_hit    latency=1ms
+    eval_test.go:303: FAIL [tc-0873] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9469
+               normalizeText() handles caps — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0874] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8409
+               normalizeText() handles caps — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0875] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8537
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0876] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0877] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9453
+               normalizeText() handles punctuation — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0878] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0879] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0880] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0881] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0882] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0883] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0884] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0885] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0886] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0887] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0888] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0889] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0890] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8883
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0891] edge_case              got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0892] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0893] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8868
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0894] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8978
+               normalizeText() handles punctuation — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0895] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0896] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9348
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0897] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0898] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0899] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8403
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0900] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0901] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0902] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0903] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9469
+               normalizeText() handles caps — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0904] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8409
+               normalizeText() handles caps — same hash as canonical query.
+    eval_test.go:303: FAIL [tc-0905] edge_case              expected=direct_hit    got=semantic_hit  sim=0.8537
+               normalizeText() handles whitespace — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0906] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:303: FAIL [tc-0907] edge_case              expected=direct_hit    got=semantic_hit  sim=0.9453
+               normalizeText() handles punctuation — same hash as canonical query.
+    eval_test.go:310: PASS [tc-0908] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0909] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0910] edge_case              got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0911] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0912] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0913] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0914] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0915] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0916] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0917] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0918] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0919] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0920] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0921] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0922] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0923] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0924] conversation_limit     got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0925] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0926] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0927] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0928] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0929] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0930] conversation_limit     got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0931] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0932] conversation_limit     got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0933] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0934] conversation_limit     got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0935] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0936] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0937] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0938] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0939] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0940] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0941] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0942] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0943] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0944] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0945] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0946] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0947] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0948] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0949] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0950] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0951] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0952] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0953] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0954] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0955] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0956] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0957] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0958] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0959] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0960] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0961] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0962] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0963] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0964] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0965] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0966] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0967] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0968] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0969] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0970] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0971] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0972] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0973] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0974] conversation_limit     got=direct_hit    latency=1ms
+    eval_test.go:310: PASS [tc-0975] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0976] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0977] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0978] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0979] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0980] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0981] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0982] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0983] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0984] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0985] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0986] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0987] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0988] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0989] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0990] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0991] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0992] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0993] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0994] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0995] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:303: FAIL [tc-0996] conversation_limit     expected=direct_hit    got=semantic_hit  sim=0.8595
+               2 messages ≤ threshold(3) → caching proceeds.
+    eval_test.go:310: PASS [tc-0997] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-0998] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:310: PASS [tc-0999] conversation_limit     got=skipped       latency=0ms
+    eval_test.go:310: PASS [tc-1000] conversation_limit     got=direct_hit    latency=0ms
+    eval_test.go:316: 
+        Category                    Total   Pass   Fail
+    eval_test.go:316: ──────────────────────────────────────────────
+    eval_test.go:316: conversation_limit             90     81      9
+    eval_test.go:316: direct_hit                    120    119      1
+    eval_test.go:316: edge_case                      90     63     27
+    eval_test.go:316: multiturn_hit                  90     90      0
+    eval_test.go:316: multiturn_miss                 90     90      0
+    eval_test.go:316: param_isolation               100    100      0
+    eval_test.go:316: semantic_hit                  240     31    209
+    eval_test.go:316: semantic_miss                 180     40    140
+    eval_test.go:316: ──────────────────────────────────────────────
+    eval_test.go:316: TOTAL                        1000    614    386
+    eval_test.go:316: 
+        Precision : 0.729  (of all hits returned, how many were correct)
+    eval_test.go:316: Recall    : 0.643  (of all expected hits, how many were found)
+    eval_test.go:316: F1        : 0.683
+    eval_test.go:316: TP=376  FP=140  FN=209  TN=275
+    eval_test.go:316: 
+        FP > 0 → wrong answer served — raise Threshold in eval_test.go
+    eval_test.go:316: FN > 0 → valid paraphrase missed — lower Threshold in eval_test.go
+--- FAIL: TestSemanticCacheEval (493.31s)
+FAIL
+FAIL	github.com/suraj370/semantic-cache/eval	493.321s
+FAIL

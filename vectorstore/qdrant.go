@@ -227,6 +227,7 @@ func (s *QdrantStore) GetNearest(ctx context.Context, namespace string, vector [
 			Properties: filterProperties(payloadToMap(p.Payload), selectFields),
 		})
 	}
+
 	return results, nil
 }
 

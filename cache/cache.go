@@ -24,6 +24,13 @@ type Cache struct {
 	logger   logger.Logger
 	embedder embedding.Embedder // nil in direct-only mode
 
+	// thresholdMgr drives per-intent adaptive similarity thresholds.
+	thresholdMgr *AdaptiveThresholdManager
+
+	// hitIntents maps cacheID → IntentType for semantic hits so RecordFeedback
+	// can route the outcome to the correct intent bucket.
+	hitIntents sync.Map
+
 	// streamAccumulators maps requestID → *StreamAccumulator for in-progress
 	// streaming writes. Not used by the main Store/StoreStream path.
 	streamAccumulators sync.Map
@@ -101,12 +108,13 @@ func New(ctx context.Context, config *Config, store vectorstore.VectorStore, emb
 	}
 
 	c := &Cache{
-		store:    store,
-		config:   config,
-		logger:   log,
-		embedder: embedder,
-		stopCh:   make(chan struct{}),
-		metrics:  noopMetricsRecorder{},
+		store:        store,
+		config:       config,
+		logger:       log,
+		embedder:     embedder,
+		stopCh:       make(chan struct{}),
+		metrics:      noopMetricsRecorder{},
+		thresholdMgr: newAdaptiveThresholdManager(),
 	}
 	for _, opt := range opts {
 		opt(c)
@@ -169,15 +177,26 @@ func (c *Cache) Lookup(ctx context.Context, requestID string, req Request, opts 
 	if ttl <= 0 {
 		ttl = c.config.TTL
 	}
+
+	// Detect intent once; used for both threshold selection and feedback routing.
+	intent := detectIntent(req)
+
 	threshold := opts.Threshold
 	if threshold <= 0 {
-		threshold = c.config.Threshold
+		// Use per-intent adaptive threshold; fall back to config if intent says skip.
+		t := c.thresholdMgr.Threshold(intent)
+		if t > 0 {
+			threshold = t
+		} else {
+			threshold = c.config.Threshold
+		}
 	}
 
 	doDirect := opts.CacheType == "" || opts.CacheType == CacheTypeDirect
 	doSemantic := opts.CacheType == "" || opts.CacheType == CacheTypeSemantic
 
-	canSemantic := doSemantic && c.embedder != nil && req.Type != RequestTypeEmbedding
+	// Skip semantic for intents that should never be cached (e.g. complaints).
+	canSemantic := doSemantic && c.embedder != nil && req.Type != RequestTypeEmbedding && !intent.SkipSemantic()
 
 	lookupCtx, cancel := context.WithTimeout(ctx, CacheConnectionTimeout)
 	defer cancel()
@@ -202,6 +221,8 @@ func (c *Cache) Lookup(ctx context.Context, requestID string, req Request, opts 
 			c.logger.Warn("semantic search error (proceeding as miss): %v", err)
 			c.metrics.RecordError("semantic_search")
 		} else if hit != nil {
+			// Track intent so RecordFeedback can route the outcome correctly.
+			c.hitIntents.Store(hit.CacheID, intent)
 			c.clearCacheState(requestID)
 			c.metrics.RecordLookup(LookupOutcomeSemanticHit, time.Since(start).Milliseconds(), state.EmbeddingTokens)
 			return hit, nil, nil
@@ -265,6 +286,8 @@ func (c *Cache) storeResponse(m *MissHandle, response json.RawMessage, inputToke
 		storeStart := time.Now()
 		storeCtx, cancel := context.WithTimeout(context.Background(), CacheSetTimeout)
 		defer cancel()
+		fmt.Println("STORE")
+
 		err := c.store.Add(storeCtx, c.config.Namespace, m.storageID, m.opts.embedding, meta)
 		c.metrics.RecordStore(time.Since(storeStart).Milliseconds(), err)
 		if err != nil {
@@ -378,6 +401,24 @@ func (c *Cache) Close() error {
 		c.cleanupOldStreamAccumulators()
 	})
 	return nil
+}
+
+// RecordFeedback reports whether a cached response was accepted (used as-is)
+// or rejected (the user found it incorrect or irrelevant). The outcome is fed
+// into the adaptive threshold manager for the intent that produced the hit, so
+// per-intent thresholds drift toward the precision-recall operating point that
+// meets the target acceptance rate.
+//
+// cacheID is the value from LookupResult.CacheID. Calling RecordFeedback with
+// an unknown or already-consumed cacheID is a silent no-op.
+func (c *Cache) RecordFeedback(cacheID string, accepted bool) {
+	v, ok := c.hitIntents.Load(cacheID)
+	if !ok {
+		return
+	}
+	intent := v.(IntentType)
+	c.thresholdMgr.RecordOutcome(intent, accepted)
+	c.hitIntents.Delete(cacheID)
 }
 
 // noopLogger silently discards all log messages.

@@ -211,7 +211,7 @@ func TestSemanticCacheEval(t *testing.T) {
 	c, err := cache.New(ctx, &cache.Config{
 		Namespace:                    namespace,
 		TTL:                          2 * time.Hour,
-		Threshold:                    0.90,
+		Threshold:                    0,    // 0 → adaptive thresholds per intent
 		EmbeddingDimension:           1536,
 		DefaultCacheKey:              "eval",
 		ConversationHistoryThreshold: 3,
@@ -226,7 +226,12 @@ func TestSemanticCacheEval(t *testing.T) {
 	// ── Phase 1: store all seed entries ───────────────────────────────────────
 	t.Log("phase 1: storing seed entries …")
 	for _, tc := range cases {
-		opts := cache.LookupOptions{CacheKey: tc.Stored.CacheKey}
+		// Direct-only: prevent a semantic hit on a similar entry from masking
+		// this case's stored entry (would cause edge_case/conv_limit Phase 2 failures).
+		opts := cache.LookupOptions{
+			CacheKey:  tc.Stored.CacheKey,
+			CacheType: cache.CacheTypeDirect,
+		}
 		_, miss, err := c.Lookup(ctx, "store-"+tc.ID, tc.Stored.Request, opts)
 		if err != nil {
 			t.Logf("[%s] store-lookup error: %v", tc.ID, err)
